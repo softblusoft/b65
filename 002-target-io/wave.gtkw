@@ -1,0 +1,123 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Mon Jan 23 14:52:23 2023
+[*]
+[dumpfile] "Z:\Wip\004 - VHDL\6502 board\b65 with cpu65c02 from opencores\out\002-target-io\vhdl\cpu.ghw"
+[dumpfile_mtime] "Mon Jan 23 14:47:30 2023"
+[dumpfile_size] 31974361
+[savefile] "Z:\Wip\004 - VHDL\6502 board\b65 with cpu65c02 from opencores\002-target-io\wave.gtkw"
+[timestart] 0
+[size] 1536 841
+[pos] -1 -1
+*-40.892284 770000000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.board.
+[treeopen] top.board.int_top.
+[treeopen] top.board.int_top.inst_core6502.u_4.
+[sst_width] 285
+[signals_width] 219
+[sst_expanded] 1
+[sst_vpaned_height] 325
+@820
+#{top.board.inst_uart.rx_byte[7:0]} top.board.inst_uart.rx_byte[7] top.board.inst_uart.rx_byte[6] top.board.inst_uart.rx_byte[5] top.board.inst_uart.rx_byte[4] top.board.inst_uart.rx_byte[3] top.board.inst_uart.rx_byte[2] top.board.inst_uart.rx_byte[1] top.board.inst_uart.rx_byte[0]
+@28
+top.board.int_top.inst_ext.clock
+top.board.int_top.reset_cpu
+top.board.int_top.reset_system
+top.board.int_top.inst_ext.interrupt
+@800200
+-CPU
+@28
+top.board.int_top.inst_core6502.clk_clk_i
+top.board.int_top.inst_core6502.irq_n_i
+top.board.int_top.inst_core6502.wr_o
+@c00022
+#{top.board.int_top.inst_core6502.a_o[15:0]} top.board.int_top.inst_core6502.a_o[15] top.board.int_top.inst_core6502.a_o[14] top.board.int_top.inst_core6502.a_o[13] top.board.int_top.inst_core6502.a_o[12] top.board.int_top.inst_core6502.a_o[11] top.board.int_top.inst_core6502.a_o[10] top.board.int_top.inst_core6502.a_o[9] top.board.int_top.inst_core6502.a_o[8] top.board.int_top.inst_core6502.a_o[7] top.board.int_top.inst_core6502.a_o[6] top.board.int_top.inst_core6502.a_o[5] top.board.int_top.inst_core6502.a_o[4] top.board.int_top.inst_core6502.a_o[3] top.board.int_top.inst_core6502.a_o[2] top.board.int_top.inst_core6502.a_o[1] top.board.int_top.inst_core6502.a_o[0]
+@28
+top.board.int_top.inst_core6502.a_o[15]
+top.board.int_top.inst_core6502.a_o[14]
+top.board.int_top.inst_core6502.a_o[13]
+top.board.int_top.inst_core6502.a_o[12]
+top.board.int_top.inst_core6502.a_o[11]
+top.board.int_top.inst_core6502.a_o[10]
+top.board.int_top.inst_core6502.a_o[9]
+top.board.int_top.inst_core6502.a_o[8]
+top.board.int_top.inst_core6502.a_o[7]
+top.board.int_top.inst_core6502.a_o[6]
+top.board.int_top.inst_core6502.a_o[5]
+top.board.int_top.inst_core6502.a_o[4]
+top.board.int_top.inst_core6502.a_o[3]
+top.board.int_top.inst_core6502.a_o[2]
+top.board.int_top.inst_core6502.a_o[1]
+top.board.int_top.inst_core6502.a_o[0]
+@1401200
+-group_end
+@22
+#{top.board.int_top.inst_core6502.d_o[7:0]} top.board.int_top.inst_core6502.d_o[7] top.board.int_top.inst_core6502.d_o[6] top.board.int_top.inst_core6502.d_o[5] top.board.int_top.inst_core6502.d_o[4] top.board.int_top.inst_core6502.d_o[3] top.board.int_top.inst_core6502.d_o[2] top.board.int_top.inst_core6502.d_o[1] top.board.int_top.inst_core6502.d_o[0]
+#{top.board.int_top.inst_core6502.d_i[7:0]} top.board.int_top.inst_core6502.d_i[7] top.board.int_top.inst_core6502.d_i[6] top.board.int_top.inst_core6502.d_i[5] top.board.int_top.inst_core6502.d_i[4] top.board.int_top.inst_core6502.d_i[3] top.board.int_top.inst_core6502.d_i[2] top.board.int_top.inst_core6502.d_i[1] top.board.int_top.inst_core6502.d_i[0]
+@1000200
+-CPU
+@c00200
+-EXT
+@28
+top.board.int_top.inst_ext.enable
+top.board.int_top.inst_ext.write_enable
+@22
+#{top.board.int_top.inst_ext.write_address[3:0]} top.board.int_top.inst_ext.write_address[3] top.board.int_top.inst_ext.write_address[2] top.board.int_top.inst_ext.write_address[1] top.board.int_top.inst_ext.write_address[0]
+#{top.board.int_top.inst_ext.write_data[7:0]} top.board.int_top.inst_ext.write_data[7] top.board.int_top.inst_ext.write_data[6] top.board.int_top.inst_ext.write_data[5] top.board.int_top.inst_ext.write_data[4] top.board.int_top.inst_ext.write_data[3] top.board.int_top.inst_ext.write_data[2] top.board.int_top.inst_ext.write_data[1] top.board.int_top.inst_ext.write_data[0]
+#{top.board.int_top.inst_ext.read_address[3:0]} top.board.int_top.inst_ext.read_address[3] top.board.int_top.inst_ext.read_address[2] top.board.int_top.inst_ext.read_address[1] top.board.int_top.inst_ext.read_address[0]
+#{top.board.int_top.inst_ext.read_data[7:0]} top.board.int_top.inst_ext.read_data[7] top.board.int_top.inst_ext.read_data[6] top.board.int_top.inst_ext.read_data[5] top.board.int_top.inst_ext.read_data[4] top.board.int_top.inst_ext.read_data[3] top.board.int_top.inst_ext.read_data[2] top.board.int_top.inst_ext.read_data[1] top.board.int_top.inst_ext.read_data[0]
+@28
+top.board.int_top.inst_ext.read_keep
+@1401200
+-EXT
+@800200
+-REGS
+@23
+#{top.board.int_top.inst_ext.reg[0][7:0]} top.board.int_top.inst_ext.reg[0][7] top.board.int_top.inst_ext.reg[0][6] top.board.int_top.inst_ext.reg[0][5] top.board.int_top.inst_ext.reg[0][4] top.board.int_top.inst_ext.reg[0][3] top.board.int_top.inst_ext.reg[0][2] top.board.int_top.inst_ext.reg[0][1] top.board.int_top.inst_ext.reg[0][0]
+#{top.board.int_top.inst_ext.reg[1][7:0]} top.board.int_top.inst_ext.reg[1][7] top.board.int_top.inst_ext.reg[1][6] top.board.int_top.inst_ext.reg[1][5] top.board.int_top.inst_ext.reg[1][4] top.board.int_top.inst_ext.reg[1][3] top.board.int_top.inst_ext.reg[1][2] top.board.int_top.inst_ext.reg[1][1] top.board.int_top.inst_ext.reg[1][0]
+#{top.board.int_top.inst_ext.reg[2][7:0]} top.board.int_top.inst_ext.reg[2][7] top.board.int_top.inst_ext.reg[2][6] top.board.int_top.inst_ext.reg[2][5] top.board.int_top.inst_ext.reg[2][4] top.board.int_top.inst_ext.reg[2][3] top.board.int_top.inst_ext.reg[2][2] top.board.int_top.inst_ext.reg[2][1] top.board.int_top.inst_ext.reg[2][0]
+#{top.board.int_top.inst_ext.reg[3][7:0]} top.board.int_top.inst_ext.reg[3][7] top.board.int_top.inst_ext.reg[3][6] top.board.int_top.inst_ext.reg[3][5] top.board.int_top.inst_ext.reg[3][4] top.board.int_top.inst_ext.reg[3][3] top.board.int_top.inst_ext.reg[3][2] top.board.int_top.inst_ext.reg[3][1] top.board.int_top.inst_ext.reg[3][0]
+#{top.board.int_top.inst_ext.reg[4][7:0]} top.board.int_top.inst_ext.reg[4][7] top.board.int_top.inst_ext.reg[4][6] top.board.int_top.inst_ext.reg[4][5] top.board.int_top.inst_ext.reg[4][4] top.board.int_top.inst_ext.reg[4][3] top.board.int_top.inst_ext.reg[4][2] top.board.int_top.inst_ext.reg[4][1] top.board.int_top.inst_ext.reg[4][0]
+#{top.board.int_top.inst_ext.reg[5][7:0]} top.board.int_top.inst_ext.reg[5][7] top.board.int_top.inst_ext.reg[5][6] top.board.int_top.inst_ext.reg[5][5] top.board.int_top.inst_ext.reg[5][4] top.board.int_top.inst_ext.reg[5][3] top.board.int_top.inst_ext.reg[5][2] top.board.int_top.inst_ext.reg[5][1] top.board.int_top.inst_ext.reg[5][0]
+#{top.board.int_top.inst_ext.reg[6][7:0]} top.board.int_top.inst_ext.reg[6][7] top.board.int_top.inst_ext.reg[6][6] top.board.int_top.inst_ext.reg[6][5] top.board.int_top.inst_ext.reg[6][4] top.board.int_top.inst_ext.reg[6][3] top.board.int_top.inst_ext.reg[6][2] top.board.int_top.inst_ext.reg[6][1] top.board.int_top.inst_ext.reg[6][0]
+#{top.board.int_top.inst_ext.reg[7][7:0]} top.board.int_top.inst_ext.reg[7][7] top.board.int_top.inst_ext.reg[7][6] top.board.int_top.inst_ext.reg[7][5] top.board.int_top.inst_ext.reg[7][4] top.board.int_top.inst_ext.reg[7][3] top.board.int_top.inst_ext.reg[7][2] top.board.int_top.inst_ext.reg[7][1] top.board.int_top.inst_ext.reg[7][0]
+#{top.board.int_top.inst_ext.reg[8][7:0]} top.board.int_top.inst_ext.reg[8][7] top.board.int_top.inst_ext.reg[8][6] top.board.int_top.inst_ext.reg[8][5] top.board.int_top.inst_ext.reg[8][4] top.board.int_top.inst_ext.reg[8][3] top.board.int_top.inst_ext.reg[8][2] top.board.int_top.inst_ext.reg[8][1] top.board.int_top.inst_ext.reg[8][0]
+@821
+#{top.board.int_top.inst_ext.reg[9][7:0]} top.board.int_top.inst_ext.reg[9][7] top.board.int_top.inst_ext.reg[9][6] top.board.int_top.inst_ext.reg[9][5] top.board.int_top.inst_ext.reg[9][4] top.board.int_top.inst_ext.reg[9][3] top.board.int_top.inst_ext.reg[9][2] top.board.int_top.inst_ext.reg[9][1] top.board.int_top.inst_ext.reg[9][0]
+#{top.board.int_top.inst_ext.reg[10][7:0]} top.board.int_top.inst_ext.reg[10][7] top.board.int_top.inst_ext.reg[10][6] top.board.int_top.inst_ext.reg[10][5] top.board.int_top.inst_ext.reg[10][4] top.board.int_top.inst_ext.reg[10][3] top.board.int_top.inst_ext.reg[10][2] top.board.int_top.inst_ext.reg[10][1] top.board.int_top.inst_ext.reg[10][0]
+@23
+#{top.board.int_top.inst_ext.reg[11][7:0]} top.board.int_top.inst_ext.reg[11][7] top.board.int_top.inst_ext.reg[11][6] top.board.int_top.inst_ext.reg[11][5] top.board.int_top.inst_ext.reg[11][4] top.board.int_top.inst_ext.reg[11][3] top.board.int_top.inst_ext.reg[11][2] top.board.int_top.inst_ext.reg[11][1] top.board.int_top.inst_ext.reg[11][0]
+#{top.board.int_top.inst_ext.reg[12][7:0]} top.board.int_top.inst_ext.reg[12][7] top.board.int_top.inst_ext.reg[12][6] top.board.int_top.inst_ext.reg[12][5] top.board.int_top.inst_ext.reg[12][4] top.board.int_top.inst_ext.reg[12][3] top.board.int_top.inst_ext.reg[12][2] top.board.int_top.inst_ext.reg[12][1] top.board.int_top.inst_ext.reg[12][0]
+#{top.board.int_top.inst_ext.reg[13][7:0]} top.board.int_top.inst_ext.reg[13][7] top.board.int_top.inst_ext.reg[13][6] top.board.int_top.inst_ext.reg[13][5] top.board.int_top.inst_ext.reg[13][4] top.board.int_top.inst_ext.reg[13][3] top.board.int_top.inst_ext.reg[13][2] top.board.int_top.inst_ext.reg[13][1] top.board.int_top.inst_ext.reg[13][0]
+#{top.board.int_top.inst_ext.reg[14][7:0]} top.board.int_top.inst_ext.reg[14][7] top.board.int_top.inst_ext.reg[14][6] top.board.int_top.inst_ext.reg[14][5] top.board.int_top.inst_ext.reg[14][4] top.board.int_top.inst_ext.reg[14][3] top.board.int_top.inst_ext.reg[14][2] top.board.int_top.inst_ext.reg[14][1] top.board.int_top.inst_ext.reg[14][0]
+@821
+#{top.board.int_top.inst_ext.reg[15][7:0]} top.board.int_top.inst_ext.reg[15][7] top.board.int_top.inst_ext.reg[15][6] top.board.int_top.inst_ext.reg[15][5] top.board.int_top.inst_ext.reg[15][4] top.board.int_top.inst_ext.reg[15][3] top.board.int_top.inst_ext.reg[15][2] top.board.int_top.inst_ext.reg[15][1] top.board.int_top.inst_ext.reg[15][0]
+@1000200
+-REGS
+@c00200
+-ROM
+@28
+top.board.int_top.inst_rom.clka
+top.board.int_top.inst_rom.ena
+@22
+#{top.board.int_top.inst_rom.addra[12:0]} top.board.int_top.inst_rom.addra[12] top.board.int_top.inst_rom.addra[11] top.board.int_top.inst_rom.addra[10] top.board.int_top.inst_rom.addra[9] top.board.int_top.inst_rom.addra[8] top.board.int_top.inst_rom.addra[7] top.board.int_top.inst_rom.addra[6] top.board.int_top.inst_rom.addra[5] top.board.int_top.inst_rom.addra[4] top.board.int_top.inst_rom.addra[3] top.board.int_top.inst_rom.addra[2] top.board.int_top.inst_rom.addra[1] top.board.int_top.inst_rom.addra[0]
+#{top.board.int_top.inst_rom.douta[7:0]} top.board.int_top.inst_rom.douta[7] top.board.int_top.inst_rom.douta[6] top.board.int_top.inst_rom.douta[5] top.board.int_top.inst_rom.douta[4] top.board.int_top.inst_rom.douta[3] top.board.int_top.inst_rom.douta[2] top.board.int_top.inst_rom.douta[1] top.board.int_top.inst_rom.douta[0]
+@1401200
+-ROM
+@c00200
+-RAM
+@28
+top.board.int_top.inst_ram.clka
+top.board.int_top.inst_ram.ena
+top.board.int_top.inst_ram.wea[0]
+@22
+#{top.board.int_top.inst_ram.addra[15:0]} top.board.int_top.inst_ram.addra[15] top.board.int_top.inst_ram.addra[14] top.board.int_top.inst_ram.addra[13] top.board.int_top.inst_ram.addra[12] top.board.int_top.inst_ram.addra[11] top.board.int_top.inst_ram.addra[10] top.board.int_top.inst_ram.addra[9] top.board.int_top.inst_ram.addra[8] top.board.int_top.inst_ram.addra[7] top.board.int_top.inst_ram.addra[6] top.board.int_top.inst_ram.addra[5] top.board.int_top.inst_ram.addra[4] top.board.int_top.inst_ram.addra[3] top.board.int_top.inst_ram.addra[2] top.board.int_top.inst_ram.addra[1] top.board.int_top.inst_ram.addra[0]
+#{top.board.int_top.inst_ram.dina[7:0]} top.board.int_top.inst_ram.dina[7] top.board.int_top.inst_ram.dina[6] top.board.int_top.inst_ram.dina[5] top.board.int_top.inst_ram.dina[4] top.board.int_top.inst_ram.dina[3] top.board.int_top.inst_ram.dina[2] top.board.int_top.inst_ram.dina[1] top.board.int_top.inst_ram.dina[0]
+#{top.board.int_top.inst_ram.douta[7:0]} top.board.int_top.inst_ram.douta[7] top.board.int_top.inst_ram.douta[6] top.board.int_top.inst_ram.douta[5] top.board.int_top.inst_ram.douta[4] top.board.int_top.inst_ram.douta[3] top.board.int_top.inst_ram.douta[2] top.board.int_top.inst_ram.douta[1] top.board.int_top.inst_ram.douta[0]
+#{top.board.int_top.inst_ram.memory[1][7:0]} top.board.int_top.inst_ram.memory[1][7] top.board.int_top.inst_ram.memory[1][6] top.board.int_top.inst_ram.memory[1][5] top.board.int_top.inst_ram.memory[1][4] top.board.int_top.inst_ram.memory[1][3] top.board.int_top.inst_ram.memory[1][2] top.board.int_top.inst_ram.memory[1][1] top.board.int_top.inst_ram.memory[1][0]
+#{top.board.int_top.inst_ram.memory[9][7:0]} top.board.int_top.inst_ram.memory[9][7] top.board.int_top.inst_ram.memory[9][6] top.board.int_top.inst_ram.memory[9][5] top.board.int_top.inst_ram.memory[9][4] top.board.int_top.inst_ram.memory[9][3] top.board.int_top.inst_ram.memory[9][2] top.board.int_top.inst_ram.memory[9][1] top.board.int_top.inst_ram.memory[9][0]
+@1401200
+-RAM
+[pattern_trace] 1
+[pattern_trace] 0

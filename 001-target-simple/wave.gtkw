@@ -1,0 +1,81 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Mon Jan 23 17:26:15 2023
+[*]
+[dumpfile] "Z:\Wip\004 - VHDL\6502 board\b65 with cpu65c02 from opencores\out\001-target-simple\vhdl\cpu.ghw"
+[dumpfile_mtime] "Mon Jan 23 17:25:58 2023"
+[dumpfile_size] 11544753
+[savefile] "Z:\Wip\004 - VHDL\6502 board\b65 with cpu65c02 from opencores\001-target-simple\wave.gtkw"
+[timestart] 0
+[size] 1536 841
+[pos] -1 -1
+*-40.966286 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.board.
+[treeopen] top.board.inst_core6502.
+[treeopen] top.board.inst_core6502.u_4.
+[treeopen] top.board.inst_ram.
+[treeopen] top.board.inst_ram.memory.
+[sst_width] 285
+[signals_width] 268
+[sst_expanded] 1
+[sst_vpaned_height] 371
+@28
+top.board.clock
+@800200
+-TEST
+@22
+#{top.board.inst_ram.memory[576][7:0]} top.board.inst_ram.memory[576][7] top.board.inst_ram.memory[576][6] top.board.inst_ram.memory[576][5] top.board.inst_ram.memory[576][4] top.board.inst_ram.memory[576][3] top.board.inst_ram.memory[576][2] top.board.inst_ram.memory[576][1] top.board.inst_ram.memory[576][0]
+@1000200
+-TEST
+@800200
+-ISR ROUTINE
+@28
+top.board.cpu_irq
+@22
+#{top.board.inst_ram.memory[592][7:0]} top.board.inst_ram.memory[592][7] top.board.inst_ram.memory[592][6] top.board.inst_ram.memory[592][5] top.board.inst_ram.memory[592][4] top.board.inst_ram.memory[592][3] top.board.inst_ram.memory[592][2] top.board.inst_ram.memory[592][1] top.board.inst_ram.memory[592][0]
+@1000200
+-ISR ROUTINE
+@800200
+-NMI ROUTINE
+@28
+top.board.cpu_nmi
+@22
+#{top.board.inst_ram.memory[608][7:0]} top.board.inst_ram.memory[608][7] top.board.inst_ram.memory[608][6] top.board.inst_ram.memory[608][5] top.board.inst_ram.memory[608][4] top.board.inst_ram.memory[608][3] top.board.inst_ram.memory[608][2] top.board.inst_ram.memory[608][1] top.board.inst_ram.memory[608][0]
+@1000200
+-NMI ROUTINE
+@800200
+-CPU
+@28
+top.board.inst_core6502.clk_clk_i
+top.board.inst_core6502.wr_o
+top.board.inst_core6502.rd_o
+@22
+#{top.board.inst_core6502.a_o[15:0]} top.board.inst_core6502.a_o[15] top.board.inst_core6502.a_o[14] top.board.inst_core6502.a_o[13] top.board.inst_core6502.a_o[12] top.board.inst_core6502.a_o[11] top.board.inst_core6502.a_o[10] top.board.inst_core6502.a_o[9] top.board.inst_core6502.a_o[8] top.board.inst_core6502.a_o[7] top.board.inst_core6502.a_o[6] top.board.inst_core6502.a_o[5] top.board.inst_core6502.a_o[4] top.board.inst_core6502.a_o[3] top.board.inst_core6502.a_o[2] top.board.inst_core6502.a_o[1] top.board.inst_core6502.a_o[0]
+#{top.board.inst_core6502.d_i[7:0]} top.board.inst_core6502.d_i[7] top.board.inst_core6502.d_i[6] top.board.inst_core6502.d_i[5] top.board.inst_core6502.d_i[4] top.board.inst_core6502.d_i[3] top.board.inst_core6502.d_i[2] top.board.inst_core6502.d_i[1] top.board.inst_core6502.d_i[0]
+#{top.board.inst_core6502.d_o[7:0]} top.board.inst_core6502.d_o[7] top.board.inst_core6502.d_o[6] top.board.inst_core6502.d_o[5] top.board.inst_core6502.d_o[4] top.board.inst_core6502.d_o[3] top.board.inst_core6502.d_o[2] top.board.inst_core6502.d_o[1] top.board.inst_core6502.d_o[0]
+@28
+top.board.inst_core6502.u_4.irq_n_i
+top.board.inst_core6502.u_4.nmi_i
+@1000200
+-CPU
+@800200
+-ROM
+@22
+#{top.board.inst_rom.read_data[7:0]} top.board.inst_rom.read_data[7] top.board.inst_rom.read_data[6] top.board.inst_rom.read_data[5] top.board.inst_rom.read_data[4] top.board.inst_rom.read_data[3] top.board.inst_rom.read_data[2] top.board.inst_rom.read_data[1] top.board.inst_rom.read_data[0]
+#{top.board.inst_rom.read_address[15:0]} top.board.inst_rom.read_address[15] top.board.inst_rom.read_address[14] top.board.inst_rom.read_address[13] top.board.inst_rom.read_address[12] top.board.inst_rom.read_address[11] top.board.inst_rom.read_address[10] top.board.inst_rom.read_address[9] top.board.inst_rom.read_address[8] top.board.inst_rom.read_address[7] top.board.inst_rom.read_address[6] top.board.inst_rom.read_address[5] top.board.inst_rom.read_address[4] top.board.inst_rom.read_address[3] top.board.inst_rom.read_address[2] top.board.inst_rom.read_address[1] top.board.inst_rom.read_address[0]
+@1000200
+-ROM
+@800200
+-RAM
+@28
+top.board.inst_ram.write_enable
+@22
+#{top.board.inst_ram.read_data[7:0]} top.board.inst_ram.read_data[7] top.board.inst_ram.read_data[6] top.board.inst_ram.read_data[5] top.board.inst_ram.read_data[4] top.board.inst_ram.read_data[3] top.board.inst_ram.read_data[2] top.board.inst_ram.read_data[1] top.board.inst_ram.read_data[0]
+#{top.board.inst_ram.read_address[15:0]} top.board.inst_ram.read_address[15] top.board.inst_ram.read_address[14] top.board.inst_ram.read_address[13] top.board.inst_ram.read_address[12] top.board.inst_ram.read_address[11] top.board.inst_ram.read_address[10] top.board.inst_ram.read_address[9] top.board.inst_ram.read_address[8] top.board.inst_ram.read_address[7] top.board.inst_ram.read_address[6] top.board.inst_ram.read_address[5] top.board.inst_ram.read_address[4] top.board.inst_ram.read_address[3] top.board.inst_ram.read_address[2] top.board.inst_ram.read_address[1] top.board.inst_ram.read_address[0]
+#{top.board.inst_ram.write_data[7:0]} top.board.inst_ram.write_data[7] top.board.inst_ram.write_data[6] top.board.inst_ram.write_data[5] top.board.inst_ram.write_data[4] top.board.inst_ram.write_data[3] top.board.inst_ram.write_data[2] top.board.inst_ram.write_data[1] top.board.inst_ram.write_data[0]
+#{top.board.inst_ram.write_address[15:0]} top.board.inst_ram.write_address[15] top.board.inst_ram.write_address[14] top.board.inst_ram.write_address[13] top.board.inst_ram.write_address[12] top.board.inst_ram.write_address[11] top.board.inst_ram.write_address[10] top.board.inst_ram.write_address[9] top.board.inst_ram.write_address[8] top.board.inst_ram.write_address[7] top.board.inst_ram.write_address[6] top.board.inst_ram.write_address[5] top.board.inst_ram.write_address[4] top.board.inst_ram.write_address[3] top.board.inst_ram.write_address[2] top.board.inst_ram.write_address[1] top.board.inst_ram.write_address[0]
+@1000200
+-RAM
+[pattern_trace] 1
+[pattern_trace] 0
