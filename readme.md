@@ -229,7 +229,7 @@ How to use (Windows 10)
 Known bugs
 ----------
 
-**Linux** (and only Linux) Vivado 208.3 tcl script successfully creates the project
+**Linux** (and only Linux) Vivado 2018.3 tcl script successfully creates the project
 but synthesis fails (after IP synthesized) with the following error:
 
 `
