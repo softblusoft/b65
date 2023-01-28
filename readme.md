@@ -8,14 +8,14 @@ Create 'download' folder and download:
  - https://github.com/cc65/cc65                        `c65-2.19.tar.gz`
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
 
-Linux:<br/>
-    - `./b65.sh 001-target-simple` or `./b65.sh 002-target-io`
+Linux:
+ - `./b65.sh 001-target-simple` or `./b65.sh 002-target-io`
 
-Linux FPGA implementation<br/>
-    - `cd 002-target-io/basys3`
-    - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` **See Known Bugs**
+Linux FPGA implementation:
+ - `cd 002-target-io/basys3`
+ - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` **See Known Bugs**
 
-Windows:<br/>
+Windows:
  - Open MSYS
     - `./b65.sh 001-target-simple` or `./b65.sh 002-target-io`
 
@@ -23,8 +23,8 @@ Windows:<br/>
     - `b65-win-vhdl-001-target-simple.bat` or `b65-win-vhdl-002-target-io.bat`
 
 Windows FPGA implementation<br/>
-    - `cd 002-target-io/basys3`
-    - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
+ - `cd 002-target-io/basys3`<br/>
+ - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
 
 Introduction
 ------------
