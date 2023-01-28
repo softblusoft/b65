@@ -241,10 +241,8 @@ INFO: [Common 17-206] Exiting Vivado at Thu Jan 26 15:38:08 2023...
 
 ram_ooc.xdc exists, have rw permissions and is (excluding comments):
 
-`
-create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]
-    set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]
-`
+  `create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`
+  `set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
 
 this file is the same both in Linux and Windows
 
@@ -271,5 +269,5 @@ along with B65.  If not, see <http://www.gnu.org/licenses/>.
 Changes
 -------
 
-2023 jan 15 : 001-target-simple working (simulation)
-2023 jan 28 : 002-target-io     working (FPGA proven)
+- 2023 jan 15 : 001-target-simple working (simulation)
+- 2023 jan 28 : 002-target-io     working (FPGA proven)
