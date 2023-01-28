@@ -8,30 +8,30 @@ Create 'download' folder and download:
  - https://github.com/cc65/cc65                        `c65-2.19.tar.gz`
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
 
-Linux:
+Linux:<br/>
     - `./b65.sh 001-target-simple` or `./b65.sh 002-target-io`
 
-Linux FPGA implementation
-	- `cd 002-target-io/basys3`
+Linux FPGA implementation<br/>
+    - `cd 002-target-io/basys3`
     - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` **See Known Bugs**
 
-Windows:
+Windows:<br/>
  - Open MSYS
     - `./b65.sh 001-target-simple` or `./b65.sh 002-target-io`
 
  - Open cmd.exe (or double click)
     - `b65-win-vhdl-001-target-simple.bat` or `b65-win-vhdl-002-target-io.bat`
-	
-Windows FPGA implementation
-	- `cd 002-target-io/basys3`
+
+Windows FPGA implementation<br/>
+    - `cd 002-target-io/basys3`
     - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
 
 Introduction
 ------------
 
-This is a minimal VHDL project to use a 6502 CPU with a C compiler on a FPGA
-Design is divided into 'targets' with increasing features
-Some files are duplicated across targets, it's wanted to separate each development step.
+This is a minimal VHDL project to use a 6502 CPU with a C compiler on a FPGA.<br/>
+Design is divided into 'targets' with increasing features.<br/>
+Some files are duplicated across targets, it's wanted to separate each development step.<br/>
 Build scripts are minimal and the whole project is intentionally written as simple as possible.
 
 All used software is free of charge, in most cases open source
@@ -80,7 +80,7 @@ Download packs
 
 cc65 and cpu6502 must be manually downloaded and placed to the 'download' folder:
 
-- download
+ - mkdir download && cd download
  - https://github.com/cc65/cc65                        `c65-2.19.tar.gz`
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
 
@@ -132,14 +132,14 @@ where:
  - `{xxxx.y}`        is the vivado version,      e.g. `2018.3`
 
 When Vivado is opened the project is ready to be 'compiled' (synthesis, implementation, bitstream generation)
-The project is saved to `ut/{target}/vivado` folder
+The project is saved to `out/{target}/vivado` folder
 
 Next times double click on .xpr file in `out/{target}/vivado` folder, don't run the Tcl script again
 
 **Important note** : the .coe file is **copied** from soft folder to the rom IP folder by the tcl script.
                      In case software is modified the .coe file must be manually updated.
 
-Tip : the file to download to the FPGA (the bitstream), is placed in `out\{target}\vivado\b65.runs\impl_1\top.bit`.
+Tip : the file to download to the FPGA (the bitstream), is placed in `out/{target}/vivado/b65.runs/impl_1/top.bit`.
       To download this file use Vivado (or Vivado Lab) Hardware manager
 
 Build script
@@ -241,7 +241,7 @@ INFO: [Common 17-206] Exiting Vivado at Thu Jan 26 15:38:08 2023...
 
 ram_ooc.xdc exists, have rw permissions and is (excluding comments):
 
-  `create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`
+  `create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`<br/>
   `set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
 
 this file is the same both in Linux and Windows
