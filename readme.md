@@ -239,12 +239,11 @@ Resolution: If [get_<value>] was used to populate the object, check to make sure
 INFO: [Common 17-206] Exiting Vivado at Thu Jan 26 15:38:08 2023...
 `
 
-ram_ooc.xdc exist, have both read and write permissions. 
-Excluding comments, ram_ooc.xdc appears to be the same both in Linux and in Windows;
-even after changing newlines to unix style (LF) this issue remains.
-I also tried to reinstall ubuntu without success.
+ram_ooc.xdc exist, have both read and write permissions and appears to be the
+same both in Linux and in Windows; even after changing newlines to unix style
+(LF) this issue remains. I also tried to reinstall ubuntu without success.
 
-ram_ooc.xdc:
+ram_ooc.xdc:<br/>
 `create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`<br/>
 `set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
 
