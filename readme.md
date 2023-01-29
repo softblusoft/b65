@@ -245,10 +245,8 @@ even after changing newlines to unix style (LF) this issue remains.
 I also tried to reinstall ubuntu without success.
 
 ram_ooc.xdc:
-`
-  create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]<br/>
-  set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]
-`
+`create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`<br/>
+`set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
 
 License
 -------
