@@ -13,7 +13,7 @@ Linux:
 
 Linux FPGA implementation:
  - `cd 002-target-io/basys3`
- - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` **See Known Bugs**
+ - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` --> **See Known issues**
 
 Windows:
  - Open MSYS
@@ -226,7 +226,7 @@ How to use (Windows 10)
         Run the batch file `b65-win-vhdl.bat {target}`, e.g.
         `b65-win-vhdl.bat 001-target-simple`
 
-Known bugs
+Known issues
 ----------
 
 **Linux** (and only Linux) Vivado 2018.3 tcl script successfully creates the project
@@ -239,12 +239,16 @@ Resolution: If [get_<value>] was used to populate the object, check to make sure
 INFO: [Common 17-206] Exiting Vivado at Thu Jan 26 15:38:08 2023...
 `
 
-ram_ooc.xdc exists, have rw permissions and is (excluding comments):
+ram_ooc.xdc exist, have both read and write permissions. 
+Excluding comments, ram_ooc.xdc appears to be the same both in Linux and in Windows;
+even after changing newlines to unix style (LF) this issue remains.
+I also tried to reinstall ubuntu without success.
 
-  `create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`<br/>
-  `set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
-
-this file is the same both in Linux and Windows
+ram_ooc.xdc:
+`
+  create_clock -name "TS_CLKA" -period 20.0 [ get_ports clka ]`<br/>
+  set_property HD.CLK_SRC BUFGCTRL_X0Y0 [ get_ports clka ]`
+`
 
 License
 -------
