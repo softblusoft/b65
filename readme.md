@@ -107,7 +107,7 @@ Targets
 
  Note on UART : the implementation in 002-target-io requires a guard time after each byte; when transmitting
                 separate chars, like from a keyboard console, 8N1 settings are fine; in a continuous data
-                stream the setup must be 8N2
+                stream the setup must be 8N2 (2 stop bits)
 
 - `003-target-soft-dl`
   - Changed 'rom' to 'ram_code': at power-on wait for software from UART before releasing the CPU reset
@@ -118,11 +118,29 @@ Targets
  
   NOTE : Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
 
+  NOTE : After software download, to update the software again, the FPGA must be re-programmed
+  
   Windows (assuming the serial port is COM8):
-   - Open cmd.exe (or double click)
+  - Open cmd.exe (or double click)
     - `cd out\003-target-soft-dl\soft`
 	- `MODE COM8 BAUD=921600 PARITY=n DATA=8 STOP=1`
-	- `copy /b b65.rom COM8`
+	- `copy /b b65.rom COM8` (this command doesn't work from powershell)
+
+  In Windows RealTerm (2.0.0.70) is an alterantive software; the "b65 ready." message appears on the gui when download is completed.
+    - Set "Ansi" display mode
+	- Set Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
+    - use "Dump File to Port" in "Send" tab to download the b65.rom file
+
+  Linux (assuming the serial port is /dev/ttyUSB1):
+  - Open a terminal as root
+    - `cd out\003-target-soft-dl\soft`
+    - `stty -F /dev/ttyUSB1 raw 921600 cs8`
+	- `cat b65.rom > /dev/ttyUSB1`
+
+  In Linux minicom (2.8) can be used:
+    - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
+	- Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
+	- Press CTRL+A Z, press Q to quit
 
 rom2coe
 -------
