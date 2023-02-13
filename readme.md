@@ -96,7 +96,7 @@ Targets
   - RAM and ROM and synchronous (50MHz clock)
 
 - `002-target-io`
-  - IO extension: 16 leds, 24 inputs, four 7-segments LCD digits, one UART (9600 8N1)
+  - IO extension: 16 leds, 24 inputs, four 7-segments LCD digits, one UART (9600 8N2 : 8 data bit, no parity, 2 stop bits)
   - Leds and digits have 3 luminosity levels (OFF, 33% PWM, 66% PWM, full ON)
   - Inputs generate IRQ (both on push down and up), NMI is unused
   - IO extension is controlled with 16 registers starting from 0xDC00
@@ -104,6 +104,25 @@ Targets
   - In basys3 folder there is top.bit, a ready to use bitstream
   - There is no slides and buttons debounce
   - It's difficult to modify the software: new FPGA builds takes long time
+
+ Note on UART : the implementation in 002-target-io requires a guard time after each byte; when transmitting
+                separate chars, like from a keyboard console, 8N1 settings are fine; in a continuous data
+                stream the setup must be 8N2
+
+- `003-target-soft-dl`
+  - Changed 'rom' to 'ram_code': at power-on wait for software from UART before releasing the CPU reset
+  - Baud rate is modified from 9600 to 921600 to speedup download (6826ms@9600 to download 8k bytes of rom it's too slow;
+    the whole rom file must be downloaded because at the end there are reset vectors)
+  - Ram and ram_code are essentially the same VHDL code (they could be reduced to a single file)
+  - Software is not modified respect to '002-target-io', the same messages appear
+ 
+  NOTE : Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
+
+  Windows (assuming the serial port is COM8):
+   - Open cmd.exe (or double click)
+    - `cd out\003-target-soft-dl\soft`
+	- `MODE COM8 BAUD=921600 PARITY=n DATA=8 STOP=1`
+	- `copy /b b65.rom COM8`
 
 rom2coe
 -------
@@ -270,5 +289,6 @@ along with B65.  If not, see <http://www.gnu.org/licenses/>.
 Changes
 -------
 
-- 2023 jan 15 : 001-target-simple working (simulation)
-- 2023 jan 28 : 002-target-io     working (FPGA proven)
+- 2023 jan 15 : 001-target-simple  working (simulation)
+- 2023 jan 28 : 002-target-io      working (FPGA proven)
+- 2023 feb 12 : 003-target-soft-dl working (FPGA proven)

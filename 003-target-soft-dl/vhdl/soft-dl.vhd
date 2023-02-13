@@ -1,0 +1,136 @@
+-- Copyright 2023 Luca Bertossi
+--
+-- This file is part of B65.
+-- 
+--     B65 is free software: you can redistribute it and/or modify
+--     it under the terms of the GNU General Public License as published by
+--     the Free Software Foundation, either version 3 of the License, or
+--     (at your option) any later version.
+-- 
+--     B65 is distributed in the hope that it will be useful,
+--     but WITHOUT ANY WARRANTY; without even the implied warranty of
+--     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--     GNU General Public License for more details.
+-- 
+--     You should have received a copy of the GNU General Public License
+--     along with B65.  If not, see <http://www.gnu.org/licenses/>.
+
+----------------------------------------------------------------------------------
+-- Software download block
+
+-------------------------------------------------------------------------------
+-- Libraries
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
+
+library b65;
+use b65.PACK.all;
+
+-------------------------------------------------------------------------------
+-- Entity
+
+entity soft_dl is
+	port	(
+				-- General
+				clock					: in		std_logic;								-- Clock
+				reset					: in		std_logic;								-- reset
+				reset_cpu				: out		std_logic;								-- CPU reset
+				led						: out		std_logic_vector(15 downto 0);			-- Led
+
+				-- UART data receive
+				uart_rx_data			: in		std_logic_vector(7 downto 0);			-- UART received data
+				uart_rx_valid			: in		std_logic;								-- UART received data valid
+
+				-- Code ram write interface
+				write_address			: out		std_logic_vector(12	downto 0);			-- write Address
+				write_enable			: out		std_logic_vector( 0 downto 0);			-- Write enable
+				write_data				: out		std_logic_vector( 7	downto 0)			-- Data IN
+			);
+end soft_dl;
+
+-------------------------------------------------------------------------------
+-- Architecture
+
+architecture behavioral of soft_dl is
+
+	----------------------------------------------------------------------------
+	-- Constants
+
+	----------------------------------------------------------------------------
+	-- Data types
+
+	----------------------------------------------------------------------------
+	-- Constants
+
+	----------------------------------------------------------------------------
+	-- Signals
+	
+	signal download_done	: std_logic							:= '0';						-- Done flag
+	signal data_address		: std_logic_vector(15	downto 0)	:= (others => '0');			-- data Address
+
+begin
+	---------------------------------------------------------------------------
+	-- Hardwired
+
+	write_address	<= data_address(12 downto 0);
+
+	-- Reset CPU is active low
+	reset_cpu		<= download_done;
+
+	---------------------------------------------------------------------------
+	-- Processes
+
+	-- Reset handling
+	proc_soft_dl : process(clock) begin
+		if (clock'event and clock='1') then
+			-- If reset
+			if (reset = '1') then
+				download_done									<= '0';
+				led												<= x"0001";
+
+				data_address									<= (others => '1');
+				write_enable(0)									<= '0';
+				write_data										<= (others => '0');
+			else
+				write_enable(0)									<= '0';
+
+				if  (data_address = x"0200") then	led(1)		<= '1'; end if;
+				if  (data_address = x"0400") then	led(2)		<= '1'; end if;
+				if  (data_address = x"0600") then	led(3)		<= '1'; end if;
+				if  (data_address = x"0800") then	led(4)		<= '1'; end if;
+				if  (data_address = x"0A00") then	led(5)		<= '1'; end if;
+				if  (data_address = x"0C00") then	led(6)		<= '1'; end if;
+				if  (data_address = x"0E00") then	led(7)		<= '1'; end if;
+				if  (data_address = x"1000") then	led(8)		<= '1'; end if;
+				if  (data_address = x"1200") then	led(9)		<= '1'; end if;
+				if  (data_address = x"1400") then	led(10)		<= '1'; end if;
+				if  (data_address = x"1600") then	led(11)		<= '1'; end if;
+				if  (data_address = x"1800") then	led(12)		<= '1'; end if;
+				if  (data_address = x"1A00") then	led(13)		<= '1'; end if;
+				if  (data_address = x"1C00") then	led(14)		<= '1'; end if;
+				if  (data_address = x"1FFE") then	led(15)		<= '1'; end if;
+
+				if  (data_address = x"1FFF") then
+					-- software download completed
+					download_done								<= '1';
+					led											<= x"0000";
+				end if;
+
+				if (uart_rx_valid = '1') and (download_done = '0') then
+					write_enable(0)								<= '1';
+					write_data									<= uart_rx_data;
+					data_address								<= data_address + 1;
+					led(0)										<= '1';
+				end if;
+
+			end if; -- reset
+		end if; -- clock event
+	end process;
+
+end behavioral;
+
+-------------------------------------------------------------------------------
+-- EOF

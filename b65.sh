@@ -16,7 +16,7 @@
 #     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
 # Settings
-SIMRUNTIME=5ms
+SIMRUNTIME=20ms
 FOLDER_OUTPUT=out
 FOLDER_CC65=cc65-2.19
 FOLDER_ROM2COE=rom2coe
