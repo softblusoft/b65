@@ -15,53 +15,153 @@
 //     You should have received a copy of the GNU General Public License
 //     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
+///////////////////////////////////////////////////////////
+// Includes
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <6502.h>
+#include "extension.h"
+#include "uart.h"
+#include "console.h"
 
-// Extension registers
-#define REGEXT_BASE				0xDC00
-#define R_MODE					(*((unsigned char*) REGEXT_BASE + 0x00))
-#define R_OUT0					(*((unsigned char*) REGEXT_BASE + 0x01))
-#define R_OUT1					(*((unsigned char*) REGEXT_BASE + 0x02))
-#define R_OUT2					(*((unsigned char*) REGEXT_BASE + 0x03))
-#define R_OUT3					(*((unsigned char*) REGEXT_BASE + 0x04))
-#define R_DIGIT_INTENSITY		(*((unsigned char*) REGEXT_BASE + 0x05))
-#define R_IN0					(*((unsigned char*) REGEXT_BASE + 0x06))
-#define R_IN1					(*((unsigned char*) REGEXT_BASE + 0x07))
-#define R_IN2					(*((unsigned char*) REGEXT_BASE + 0x08))
-#define R_DIGIT0				(*((unsigned char*) REGEXT_BASE + 0x09))
-#define R_DIGIT1				(*((unsigned char*) REGEXT_BASE + 0x0A))
-#define R_DIGIT2				(*((unsigned char*) REGEXT_BASE + 0x0B))
-#define R_DIGIT3				(*((unsigned char*) REGEXT_BASE + 0x0C))
-#define R_RX_COUNT				(*((unsigned char*) REGEXT_BASE + 0x0D))
-#define R_RX					(*((unsigned char*) REGEXT_BASE + 0x0E))
-#define R_TX					(*((unsigned char*) REGEXT_BASE + 0x0F))
+///////////////////////////////////////////////////////////
+// Globals
 
-// Variable shared with assembler (see isr.s)
-unsigned char uart_rx_count;
+// Variable shared with assembler; it's updated in IRQ handler (see isr.s)
+unsigned char	g_uart_rx_count;
+CONSOLE_CONTEXT	g_console_context;
 
-// Uart Rx Buffer
-unsigned char uart_rx_index;
-unsigned char uart_rx_buffer[32];
+///////////////////////////////////////////////////////////
+// Functions declaration
 
+void help		(unsigned char *Command, void *Arg);
+void cls		(unsigned char *Command, void *Arg);
+void history	(unsigned char *Command, void *Arg);
+void display	(unsigned char *Command, void *Arg);
 
-// String UART transmit
-void __fastcall__ uartTX(const char *buf)
+///////////////////////////////////////////////////////////
+// Commands
+
+static const CONSOLE_COMMAND g_ConsoleCommand[] =
 {
-	while(*buf)
+	{	"?",		help,	0,		"Show a short commands description"		},
+	{	"cls",		cls,	0,		"Clear screen"							},
+
+//	{	"reboot",	0, 0,			"Reboot CPU"							},
+//	{	"upgrade",	0, 0,			"Upgrade software"						},
+
+#if (CONSOLE_MAX_HISTORY > 0)
+	{	"history",	history, 0,		"Show the commands history"				},
+#endif
+
+	{	"display",	display, 0,		"Print 4 chars on 7 segments display"	},
+
+};
+
+///////////////////////////////////////////////////////////
+// Functions
+
+// Disable "unused param" warningfor callbacks
+#pragma warn (unused-param, push, off)
+
+///////////////////////////////////////////////////////////
+///
+/// Show a short help message
+///
+///	\param	Command		:	User command string
+///	\param	Arg			:	Optional callback user argument
+///
+///////////////////////////////////////////////////////////
+void help(unsigned char *Command, void *Arg)
+{
+	unsigned char buffer[32];
+	unsigned char fill[16] = "                ";
+	unsigned char Len;
+	unsigned char Index;
+	
+	for (Index = 0; Index < sizeof(g_ConsoleCommand) / sizeof(CONSOLE_COMMAND); Index++)
 	{
-		R_TX = *buf;
-		++buf;
+		Len = strlen(g_ConsoleCommand[Index].command);
+		fill[12-Len] = '\0';
+		sprintf(buffer, "  %s%s%s\r\n", g_ConsoleCommand[Index].command, fill, g_ConsoleCommand[Index].help);
+		fill[12-Len] = ' ';
+		uartTX(buffer);
 	}
 }
 
+///////////////////////////////////////////////////////////
+///
+/// Sen the escape sequence to clear screen
+///
+///	\param	Command		:	User command string
+///	\param	Arg			:	Optional callback user argument
+///
+///////////////////////////////////////////////////////////
+void cls(unsigned char *Command, void *Arg)
+{
+	uartTX("\033[H\033[J");
+}
+
+///////////////////////////////////////////////////////////
+///
+/// Show the commands history
+///
+///	\param	Command		:	User command string
+///	\param	Arg			:	Optional callback user argument
+///
+///////////////////////////////////////////////////////////
+void history(unsigned char *Command, void *Arg)
+{
+	unsigned char buffer[32];
+	unsigned char Index;
+	
+	for (Index = 0; Index < g_console_context.historyCount; Index++)
+	{
+		sprintf(buffer, "[%d] %s\r\n", Index, g_console_context.history[Index]);
+		uartTX(buffer);
+	}	
+}
+
+///////////////////////////////////////////////////////////
+///
+/// Display a string on the four 7-segments led displays
+/// of the basys3 board
+///
+///	\param	Command		:	User command string
+///	\param	Arg			:	Optional callback user argument
+///
+///////////////////////////////////////////////////////////
+void display(unsigned char *Command, void *Arg)
+{
+	//             0123456789AB
+	// Command is "display 1234"
+	//                     ||||--> optional characters to display
+
+	unsigned char Len = strlen(Command);
+
+	if (Len >=  9) R_DIGIT3 = Command[ 8]; else R_DIGIT3 = 0; 
+	if (Len >= 10) R_DIGIT2 = Command[ 9]; else R_DIGIT2 = 0; 
+	if (Len >= 11) R_DIGIT1 = Command[10]; else R_DIGIT1 = 0; 
+	if (Len >= 12) R_DIGIT0 = Command[11]; else R_DIGIT0 = 0;
+}
+#pragma warn (unused-param, pop)
+
+///////////////////////////////////////////////////////////
 // Entry point
+
+///////////////////////////////////////////////////////////
+///
+/// Entry point
+///
+///////////////////////////////////////////////////////////
 void main(void)
 {
-	unsigned char delay;
-	unsigned char regval;
-	unsigned char inval;
-	unsigned char oldval[2]	= { 0, 0 };
-	unsigned char rxval;
+	unsigned char	delay;
+	unsigned char	regval;
+	unsigned char	inval;
+	unsigned char	oldval[2]	= { 0, 0 };
 
 	// Enable interrupt (otherwise cpu_irq signal has no effects on software)
 	asm("cli");
@@ -73,14 +173,21 @@ void main(void)
 	R_DIGIT0			= ' ';
 
 	uartTX("b65 ready.\r\n");
-
-	uart_rx_index  = 0;
+	ConsoleInit(&g_console_context, g_ConsoleCommand, sizeof(g_ConsoleCommand) / sizeof(CONSOLE_COMMAND) );
 
 	while(1)
 	{
 		// Delay
 		for (delay = 0; delay < 16; ++delay);
 
+		// Console add
+		if (g_uart_rx_count != 0)
+		{
+			g_uart_rx_count--;
+			ConsoleAdd(&g_console_context, R_RX);
+		}
+		
+		// Inputs and Leds
 		if (R_IN2 != 0)
 		{
 			// Any pushed button switches on all leds at different intensity
@@ -134,57 +241,6 @@ void main(void)
 				if (inval & 0x40) regval |= 0x30; else regval &= ~0x30;
 				if (inval & 0x80) regval |= 0xC0; else regval &= ~0xC0;
 				R_OUT3 = regval;
-			}
-		}
-	
-		// uart_rx_count is updated in IRQ handler (see isr.s)
-		if (uart_rx_count != 0)
-		{
-			uart_rx_count--;
-			rxval = R_RX;
-			
-			// Echo uart
-			R_TX = rxval;
-			
-			if ((rxval == '\r') || (rxval == '\n'))
-			{
-				if (uart_rx_index > 0)
-				{
-					uartTX("\r\nReceived '");
-					uart_rx_buffer[uart_rx_index] = '\0';
-					uartTX(uart_rx_buffer);
-					uartTX("'\r\n");
-				}
-
-				uart_rx_index = 0;
-				
-				R_OUT0		= 0;
-				R_OUT1		= 0;
-				R_OUT2		= 0;
-				R_OUT3		= 0;
-				R_DIGIT3	= ' ';
-				R_DIGIT2	= ' ';
-				R_DIGIT1	= ' ';
-				R_DIGIT0	= ' ';
-			}
-			else if (uart_rx_index < 28)
-			{
-				//   From space (included) to DEL (excluded)
-				if ((rxval >= 0x20) && (rxval < 0x7F))
-				{
-					uart_rx_buffer[uart_rx_index] = rxval;
-					uart_rx_index++;
-
-					R_DIGIT3	= ' ';
-					R_DIGIT2	= rxval;
-					R_DIGIT1	= ' ';
-					R_DIGIT0	= ' ';
-				}
-			}
-			else
-			{
-				uartTX("too long command, resetting\r\n");
-				uart_rx_index = 0;
 			}
 		}
 	}

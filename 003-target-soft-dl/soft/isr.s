@@ -46,7 +46,7 @@
 ; assembler.
 
 .export   _irq_int, _nmi_int
-.import   _uart_rx_count
+.import   _g_uart_rx_count
 
 .segment  "CODE"
 
@@ -90,15 +90,15 @@ _irq_int:
 
             ; Interrupt code handler starts here
             
-            ; If UART interrupt update _uart_rx_count
+            ; If UART interrupt update _g_uart_rx_count
 			;   if (REGEXT0_MODE & 0x10)
-			;       _uart_rx_count = REGEXTD_RX_COUNT;
+			;       _g_uart_rx_count = REGEXTD_RX_COUNT;
 			;
             LDA $DC00             ; Load Extension register 0
 			AND #$10              ; Extract Isolate bit 4 (UART Rx interrupt)
             BEQ _irq_clean        ; if not UART interrupt goto bit clean
 			LDA $DC0D             ; Load REGEXTD_RX_COUNT
-            STA _uart_rx_count    ; Copy loaded value to _uart_rx_count
+            STA _g_uart_rx_count  ; Copy loaded value to _g_uart_rx_count
 
 _irq_clean:
             ; Clear bit 3,4 at 0xDC00

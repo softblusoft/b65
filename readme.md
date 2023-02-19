@@ -114,7 +114,7 @@ Targets
   - Baud rate is modified from 9600 to 921600 to speedup download (6826ms@9600 to download 8k bytes of rom it's too slow;
     the whole rom file must be downloaded because at the end there are reset vectors)
   - Ram and ram_code are essentially the same VHDL code (they could be reduced to a single file)
-  - Software is not modified respect to '002-target-io', the same messages appear
+  - Software implementing a console over the UART
  
   NOTE : Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
 
@@ -126,10 +126,16 @@ Targets
 	- `MODE COM8 BAUD=921600 PARITY=n DATA=8 STOP=1`
 	- `copy /b b65.rom COM8` (this command doesn't work from powershell)
 
-  In Windows RealTerm (2.0.0.70) is an alterantive software; the "b65 ready." message appears on the gui when download is completed.
-    - Set "Ansi" display mode
-	- Set Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
+  Windows RealTerm (2.0.0.70)
+    - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
     - use "Dump File to Port" in "Send" tab to download the b65.rom file
+    - Recognized the following control keys : the four arrows, esc and backspace
+
+  Windows PuttY (0.78) or KiTTY (0.76.0.6p)
+    - `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
+    - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
+    - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
+	- KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
 
   Linux (assuming the serial port is /dev/ttyUSB1):
   - Open a terminal as root
@@ -137,9 +143,10 @@ Targets
     - `stty -F /dev/ttyUSB1 raw 921600 cs8`
 	- `cat b65.rom > /dev/ttyUSB1`
 
-  In Linux minicom (2.8) can be used:
+  Minicom (2.8)
     - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
 	- Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
+	- Press CTRL+A Z, press S send a file, use "ascii" mode and then select the "b65.rom" file, press enter to send
 	- Press CTRL+A Z, press Q to quit
 
 rom2coe
