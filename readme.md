@@ -53,8 +53,8 @@ The following tools are used (not modified, not patched)
 |MSYS    |             |                 | Windows tools          | https://www.msys2.org
 |Vivado  | 2018.3      | Xilinx EULA     | Xilinx FPGA build tool | https://www.xilinx.com
 
-Note: I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
-		 require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
+:pushpin: I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
+		  require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
 
 Useful links
   - CPU 6502 resources          : http://www.6502.org
