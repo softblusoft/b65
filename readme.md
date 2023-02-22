@@ -1,5 +1,6 @@
 B65 - Board 65 retro computer
 =============================
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.2" viewBox="0 2500 10000 5000" xmlns="http://www.w3.org/2000/svg"><rect fill="none" x="1131" y="2821" width="1958" height="411"/><path fill="rgb(102,102,102)" d="M 1131,3027 L 1479,2822 1479,2822 2739,2822 2739,2822 3087,3027 2739,3231 2739,3231 2739,3231 1479,3231 1479,3231 1479,3231 1131,3027 Z"/><rect fill="none" x="2891" y="3053" width="410" height="1958"/><path fill="rgb(102,102,102)" d="M 3095,3053 L 3300,3401 3300,3401 3300,4661 3300,4661 3095,5009 2891,4661 2891,4661 2891,4661 2891,3401 2891,3401 2891,3401 3095,3053 Z"/><rect fill="none" x="5791" y="3053" width="410" height="1958"/><path fill="rgb(102,102,102)" d="M 5995,3053 L 6200,3401 6200,3401 6200,4661 6200,4661 5995,5009 5791,4661 5791,4661 5791,4661 5791,3401 5791,3401 5791,3401 5995,3053 Z"/><rect fill="none" x="6700" y="5009" width="410" height="1957"/><path fill="rgb(102,102,102)" d="M 6904,5009 L 7109,5357 7109,5357 7109,6617 7109,6617 6904,6965 6700,6617 6700,6617 6700,6617 6700,5357 6700,5357 6700,5357 6904,5009 Z"/><rect fill="none" x="8691" y="3053" width="410" height="1958"/><path fill="rgb(102,102,102)" d="M 8895,3053 L 9100,3401 9100,3401 9100,4661 9100,4661 8895,5009 8691,4661 8691,4661 8691,4661 8691,3401 8691,3401 8691,3401 8895,3053 Z"/><rect fill="none" x="900" y="3053" width="410" height="1958"/><path fill="rgb(215,113,113)" d="M 1104,3053 L 1309,3401 1309,3401 1309,4661 1309,4661 1104,5009 900,4661 900,4661 900,4661 900,3401 900,3401 900,3401 1104,3053 Z"/><rect fill="none" x="900" y="5009" width="410" height="1957"/><path fill="rgb(215,113,113)" d="M 1104,5009 L 1309,5357 1309,5357 1309,6617 1309,6617 1104,6965 900,6617 900,6617 900,6617 900,5357 900,5357 900,5357 1104,5009 Z"/><rect fill="none" x="1131" y="4813" width="1958" height="410"/><path fill="rgb(215,113,113)" d="M 1131,5018 L 1479,4813 1479,4813 2739,4813 2739,4813 3087,5018 2739,5222 2739,5222 2739,5222 1479,5222 1479,5222 1479,5222 1131,5018 Z"/><rect fill="none" x="1131" y="6768" width="1958" height="411"/><path fill="rgb(215,113,113)" d="M 1131,6974 L 1479,6769 1479,6769 2739,6769 2739,6769 3087,6974 2739,7178 2739,7178 2739,7178 1479,7178 1479,7178 1479,7178 1131,6974 Z"/><rect fill="none" x="2891" y="5009" width="410" height="1957"/><path fill="rgb(215,113,113)" d="M 3095,5009 L 3300,5357 3300,5357 3300,6617 3300,6617 3095,6965 2891,6617 2891,6617 2891,6617 2891,5357 2891,5357 2891,5357 3095,5009 Z"/><rect fill="none" x="3800" y="3053" width="410" height="1958"/><path fill="rgb(215,113,113)" d="M 4004,3053 L 4209,3401 4209,3401 4209,4661 4209,4661 4004,5009 3800,4661 3800,4661 3800,4661 3800,3401 3800,3401 3800,3401 4004,3053 Z"/><rect fill="none" x="3800" y="5009" width="410" height="1957"/><path fill="rgb(215,113,113)" d="M 4004,5009 L 4209,5357 4209,5357 4209,6617 4209,6617 4004,6965 3800,6617 3800,6617 3800,6617 3800,5357 3800,5357 3800,5357 4004,5009 Z"/><rect fill="none" x="4031" y="2821" width="1958" height="411"/><path fill="rgb(215,113,113)" d="M 4031,3027 L 4379,2822 4379,2822 5639,2822 5639,2822 5987,3027 5639,3231 5639,3231 5639,3231 4379,3231 4379,3231 4379,3231 4031,3027 Z"/><rect fill="none" x="4031" y="4813" width="1958" height="410"/><path fill="rgb(215,113,113)" d="M 4031,5018 L 4379,4813 4379,4813 5639,4813 5639,4813 5987,5018 5639,5222 5639,5222 5639,5222 4379,5222 4379,5222 4379,5222 4031,5018 Z"/><rect fill="none" x="4031" y="6768" width="1958" height="411"/><path fill="rgb(215,113,113)" d="M 4031,6974 L 4379,6769 4379,6769 5639,6769 5639,6769 5987,6974 5639,7178 5639,7178 5639,7178 4379,7178 4379,7178 4379,7178 4031,6974 Z"/><rect fill="none" x="5791" y="5009" width="410" height="1957"/><path fill="rgb(215,113,113)" d="M 5995,5009 L 6200,5357 6200,5357 6200,6617 6200,6617 5995,6965 5791,6617 5791,6617 5791,6617 5791,5357 5791,5357 5791,5357 5995,5009 Z"/><rect fill="none" x="6700" y="3053" width="410" height="1958"/><path fill="rgb(215,113,113)" d="M 6904,3053 L 7109,3401 7109,3401 7109,4661 7109,4661 6904,5009 6700,4661 6700,4661 6700,4661 6700,3401 6700,3401 6700,3401 6904,3053 Z"/><rect fill="none" x="6931" y="2821" width="1958" height="411"/><path fill="rgb(215,113,113)" d="M 6931,3027 L 7279,2822 7279,2822 8539,2822 8539,2822 8887,3027 8539,3231 8539,3231 8539,3231 7279,3231 7279,3231 7279,3231 6931,3027 Z"/><rect fill="none" x="6931" y="4813" width="1958" height="410"/><path fill="rgb(215,113,113)" d="M 6931,5018 L 7279,4813 7279,4813 8539,4813 8539,4813 8887,5018 8539,5222 8539,5222 8539,5222 7279,5222 7279,5222 7279,5222 6931,5018 Z"/><rect fill="none" x="6931" y="6768" width="1958" height="411"/><path fill="rgb(215,113,113)" d="M 6931,6974 L 7279,6769 7279,6769 8539,6769 8539,6769 8887,6974 8539,7178 8539,7178 8539,7178 7279,7178 7279,7178 7279,7178 6931,6974 Z"/><rect fill="none" x="8691" y="5009" width="410" height="1957"/><path fill="rgb(215,113,113)" d="M 8895,5009 L 9100,5357 9100,5357 9100,6617 9100,6617 8895,6965 8691,6617 8691,6617 8691,6617 8691,5357 8691,5357 8691,5357 8895,5009 Z"/></svg>
 
 Short story
 -----------
@@ -13,7 +14,7 @@ Linux:
 
 Linux FPGA implementation:
  - `cd 002-target-io/basys3`
- - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` --> **See Known issues**
+ - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` &#2757; **See Known issues**
 
 Windows:
  - Open MSYS
@@ -52,8 +53,8 @@ The following tools are used (not modified, not patched)
 |MSYS    |             |                 | Windows tools          | https://www.msys2.org
 |Vivado  | 2018.3      | Xilinx EULA     | Xilinx FPGA build tool | https://www.xilinx.com
 
-Note :	I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
-		require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
+&#1F440; I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
+		 require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
 
 Useful links
   - CPU 6502 resources          : http://www.6502.org
@@ -120,22 +121,25 @@ Targets
 
   NOTE : After software download, to update the software again, the FPGA must be re-programmed
   
+Software download
+-----------------
+
+From target 003 the software must be downloaded at power-on over the UART;
+the FPGA keeps the CPU in reset until software download is completed.
+There is no download protocol, each byte is written to the ROM section until
+completion; the end is detected by the number of downladed bytes.
+
   Windows (assuming the serial port is COM8):
   - Open cmd.exe (or double click)
     - `cd out\003-target-soft-dl\soft`
 	- `MODE COM8 BAUD=921600 PARITY=n DATA=8 STOP=1`
 	- `copy /b b65.rom COM8` (this command doesn't work from powershell)
-
-  Windows RealTerm (2.0.0.70)
-    - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
-    - use "Dump File to Port" in "Send" tab to download the b65.rom file
-    - Recognized the following control keys : the four arrows, esc and backspace
-
-  Windows PuttY (0.78) or KiTTY (0.76.0.6p)
-    - `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
-    - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
-    - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
-	- KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
+	
+  Alternatively:
+    - using RealTerm use "Dump File to Port" in "Send" tab to download the b65.rom file
+	- using `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
+	
+	plink.exe is in PuttY package; klink is in KiTTY package
 
   Linux (assuming the serial port is /dev/ttyUSB1):
   - Open a terminal as root
@@ -143,7 +147,22 @@ Targets
     - `stty -F /dev/ttyUSB1 raw 921600 cs8`
 	- `cat b65.rom > /dev/ttyUSB1`
 
-  Minicom (2.8)
+Software download and console
+-----------------------------
+
+From target 003 there is a console over the UART.
+Type ? and press enter to list available commands
+
+  Windows RealTerm (2.0.0.70)
+    - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
+    - Recognized the following control keys : the four arrows, esc and backspace
+
+  Windows PuttY (0.78) or KiTTY (0.76.0.6p)
+    - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
+    - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
+	- KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
+
+  Linux Minicom (2.8)
     - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
 	- Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
 	- Press CTRL+A Z, press S send a file, use "ascii" mode and then select the "b65.rom" file, press enter to send
