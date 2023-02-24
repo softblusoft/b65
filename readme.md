@@ -1,6 +1,9 @@
 B65 - Board 65 retro computer
 =============================
 ![B65 logo](/b65.svg)
+
+[![license](https://img.shields.io/github/license/softblusoft/b65)](https://github.com/softblusoft/b65/blob/main/LICENSE)
+
 Short story
 -----------
 
@@ -52,8 +55,9 @@ The following tools are used (not modified, not patched)
 |MSYS    |             |                 | Windows tools          | https://www.msys2.org
 |Vivado  | 2018.3      | Xilinx EULA     | Xilinx FPGA build tool | https://www.xilinx.com
 
-:pushpin: I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
-		  require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
+:pushpin:
+I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
+require too many hardware resources (RAM, disk) respect to my actual notebook capabilities.
 
 Useful links
   - CPU 6502 resources          : http://www.6502.org
@@ -105,9 +109,10 @@ Targets
   - There is no slides and buttons debounce
   - It's difficult to modify the software: new FPGA builds takes long time
 
- Note on UART : the implementation in 002-target-io requires a guard time after each byte; when transmitting
-                separate chars, like from a keyboard console, 8N1 settings are fine; in a continuous data
-                stream the setup must be 8N2 (2 stop bits)
+ :pushpin:
+ the implementation in 002-target-io requires a guard time after each byte; when transmitting
+ separate chars, like from a keyboard console, 8N1 settings are fine; in a continuous data
+ stream the setup must be 8N2 (2 stop bits)
 
 - `003-target-soft-dl`
   - Changed 'rom' to 'ram_code': at power-on wait for software from UART before releasing the CPU reset
@@ -116,9 +121,9 @@ Targets
   - Ram and ram_code are essentially the same VHDL code (they could be reduced to a single file)
   - Software implementing a console over the UART
  
-  NOTE : Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
+  :pushpin: Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
 
-  NOTE : After software download, to update the software again, the FPGA must be re-programmed
+  :pushpin: After software download, to update the software again, the FPGA must be re-programmed
   
 Software download
 -----------------
@@ -183,9 +188,10 @@ A `basys3/vivado.tcl` script is proided to create the Vivado project
 
 FPGA implementation was tested with Vivado 2018.3
 
-**Important note** : Before running the Tcl script ensure software is built and
-                     initialization file `out/{target}/soft/b65.coe` is generated.
-                     To compile a target read "how to use" section later in this file
+:warning:
+Before running the Tcl script ensure software is built and
+initialization file `out/{target}/soft/b65.coe` is generated.
+To compile a target read "how to use" section later in this file
 
 To run the Tcl script open a command prompt (cmd.exe) and move to the `{target}/basys3` folder then run:
 	`{vivado folder}\{xxxx.y}\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
@@ -198,8 +204,9 @@ The project is saved to `out/{target}/vivado` folder
 
 Next times double click on .xpr file in `out/{target}/vivado` folder, don't run the Tcl script again
 
-**Important note** : the .coe file is **copied** from soft folder to the rom IP folder by the tcl script.
-                     In case software is modified the .coe file must be manually updated.
+:warning:
+the .coe file is **copied** from soft folder to the rom IP folder by the tcl script.
+In case software is modified the .coe file must be manually updated.
 
 Tip : the file to download to the FPGA (the bitstream), is placed in `out/{target}/vivado/b65.runs/impl_1/top.bit`.
       To download this file use Vivado (or Vivado Lab) Hardware manager
