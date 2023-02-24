@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.2" viewBox="0 100 5000 1900" xmlns="http://www.w3.org/2000/svg">
 <rect class="BoundingBox" stroke="none" fill="none" x="981" y="195" width="770" height="163"/>
-<path fill="rgb(128,128,128)" fill-opacity="0.502" stroke="none" d="M 982,276 L 1118,196 1118,196 1613,196 1613,196 1749,276 1613,356 1613,356 1613,356 1118,356 1118,356 1118,356 982,276 Z"/>
+<path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 982,276 L 1118,196 1118,196 1613,196 1613,196 1749,276 1613,356 1613,356 1613,356 1118,356 1118,356 1118,356 982,276 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="1672" y="286" width="162" height="770"/>
-<path fill="rgb(128,128,128)" fill-opacity="0.502" stroke="none" d="M 1753,287 L 1833,423 1833,423 1833,918 1833,918 1753,1054 1672,918 1672,918 1672,918 1672,423 1672,423 1672,423 1753,287 Z"/>
+<path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 1753,287 L 1833,423 1833,423 1833,918 1833,918 1753,1054 1672,918 1672,918 1672,918 1672,423 1672,423 1672,423 1753,287 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="2810" y="286" width="163" height="770"/>
-<path fill="rgb(128,128,128)" fill-opacity="0.502" stroke="none" d="M 2891,287 L 2971,423 2971,423 2971,918 2971,918 2891,1054 2811,918 2811,918 2811,918 2811,423 2811,423 2811,423 2891,287 Z"/>
+<path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 2891,287 L 2971,423 2971,423 2971,918 2971,918 2891,1054 2811,918 2811,918 2811,918 2811,423 2811,423 2811,423 2891,287 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="3167" y="1054" width="162" height="769"/>
-<path fill="rgb(128,128,128)" fill-opacity="0.502" stroke="none" d="M 3247,1054 L 3327,1190 3327,1190 3327,1685 3327,1685 3247,1821 3167,1685 3167,1685 3167,1685 3167,1190 3167,1190 3167,1190 3247,1054 Z"/>
+<path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 3247,1054 L 3327,1190 3327,1190 3327,1685 3327,1685 3247,1821 3167,1685 3167,1685 3167,1685 3167,1190 3167,1190 3167,1190 3247,1054 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="3948" y="286" width="162" height="770"/>
-<path fill="rgb(128,128,128)" fill-opacity="0.502" stroke="none" d="M 4029,287 L 4109,423 4109,423 4109,918 4109,918 4029,1054 3948,918 3948,918 3948,918 3948,423 3948,423 3948,423 4029,287 Z"/>
+<path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 4029,287 L 4109,423 4109,423 4109,918 4109,918 4029,1054 3948,918 3948,918 3948,918 3948,423 3948,423 3948,423 4029,287 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="891" y="286" width="162" height="770"/>
 <path fill="rgb(215,113,113)" stroke="none" d="M 971,287 L 1051,423 1051,423 1051,918 1051,918 971,1054 891,918 891,918 891,918 891,423 891,423 891,423 971,287 Z"/>
 <rect class="BoundingBox" stroke="none" fill="none" x="891" y="1054" width="162" height="769"/>
