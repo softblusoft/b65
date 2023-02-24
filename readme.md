@@ -1,7 +1,6 @@
 B65 - Board 65 retro computer
 =============================
 ![B65 logo](/b65.svg)
-
 Short story
 -----------
 
