@@ -145,8 +145,8 @@ completion; the end is detected by the number of downladed bytes.
     - `copy /b b65.rom COM8` (:warning: this command doesn't work from powershell)
 
   Alternatively:
-    - using RealTerm use "Dump File to Port" in "Send" tab to download the b65.rom file
-    - using `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
+  - using RealTerm use "Dump File to Port" in "Send" tab to download the b65.rom file
+  - using `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
 
   Linux (assuming the serial port is /dev/ttyUSB1):
   - Open a terminal as root
@@ -161,19 +161,19 @@ From target 003 there is a console over the UART.
 Type `?` and press enter to list available commands
 
   Windows RealTerm
-    - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
-    - Recognized the following control keys : the four arrows, esc and backspace
+  - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
+  - Recognized the following control keys : the four arrows, esc and backspace
 
   Windows PuttY or KiTTY
-    - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
-    - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
-	- KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
+  - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
+  - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
+  - KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
 
   Linux Minicom
-    - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
-	- Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
-	- Press CTRL+A Z, press S send a file, use "ascii" mode and then select the "b65.rom" file, press enter to send
-	- Press CTRL+A Z, press Q to quit
+  - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
+  - Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
+  - Press CTRL+A Z, press S send a file, use "ascii" mode and then select the "b65.rom" file, press enter to send
+  - Press CTRL+A Z, press Q to quit
 
 rom2coe
 -------
@@ -295,7 +295,7 @@ How to use (Windows 10)
         `./b65.sh 001-target-simple`
 
     - Build and run VHDL
-        Run the batch file `b65-win-vhdl.bat {target}`, e.g.
+        Run the batch file `b65-win-vhdl.bat {nnn-target-name}`, e.g.
         `b65-win-vhdl.bat 001-target-simple`
 
 Known issues
