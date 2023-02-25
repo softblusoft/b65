@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--
+Copyright 2023 Luca Bertossi
+
+This file is part of B65.
+
+    B65 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    B65 is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with B65.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <svg version="1.2" viewBox="0 100 5000 1900" xmlns="http://www.w3.org/2000/svg">
 <rect class="BoundingBox" stroke="none" fill="none" x="981" y="195" width="770" height="163"/>
 <path fill="rgb(128,128,128)" fill-opacity="0.400" stroke="none" d="M 982,276 L 1118,196 1118,196 1613,196 1613,196 1749,276 1613,356 1613,356 1613,356 1118,356 1118,356 1118,356 982,276 Z"/>

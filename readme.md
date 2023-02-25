@@ -2,9 +2,10 @@ B65 - Board 65 retro computer
 =============================
 ![B65 logo](/b65.svg)
 
-[![license](https://img.shields.io/github/license/softblusoft/b65)](https://github.com/softblusoft/b65/blob/main/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/softblusoft/b65)
 
-Short story
+Fast start
 -----------
 
 Create 'download' folder and download:
@@ -32,8 +33,8 @@ Windows FPGA implementation<br/>
 Introduction
 ------------
 
-This is a minimal VHDL project to use a 6502 CPU with a C compiler on a FPGA.<br/>
-Design is divided into 'targets' with increasing features.<br/>
+This is a VHDL project to use a 6502 CPU with a C compiler on a FPGA.
+Design is divided into 'targets' with increasing features.
 Some files are duplicated across targets, it's wanted to separate each development step.<br/>
 Build scripts are minimal and the whole project is intentionally written as simple as possible.
 
@@ -54,6 +55,10 @@ The following tools are used (not modified, not patched)
 |gtkwave | 3.3.99      | GPLv2           | VHDL simulation viewer | https://gtkwave.sourceforge.net
 |MSYS    |             |                 | Windows tools          | https://www.msys2.org
 |Vivado  | 2018.3      | Xilinx EULA     | Xilinx FPGA build tool | https://www.xilinx.com
+|RealTerm| 2.0.0.70    | BSD             | Serial Terminal        | https://sourceforge.net/projects/realterm/
+|PuTTY   | 0.78        | MIT             | Serial Terminal        | https://www.putty.org/
+|KiTTY   | 0.76.0.6p   | (see website)   | Serial Terminal        | https://github.com/cyd01/KiTTY
+|Minicom | 2.8         | GPLv2           | Serial Terminal        | https://salsa.debian.org/minicom-team/minicom
 
 :pushpin:
 I use Vivado 2018.3, newer releases can be used, I prefer not to upgrade because recent releases
@@ -157,16 +162,16 @@ Software download and console
 From target 003 there is a console over the UART.
 Type ? and press enter to list available commands
 
-  Windows RealTerm (2.0.0.70)
+  Windows RealTerm
     - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
     - Recognized the following control keys : the four arrows, esc and backspace
 
-  Windows PuttY (0.78) or KiTTY (0.76.0.6p)
+  Windows PuttY or KiTTY
     - `putty.exe` or `kitty.exe` `-serial -sercfg 921600,8,n,1,N COM8`
     - Putty,Kitty recognizes the following control keys : the four arrows, esc, ins, canc, home, end and backspace
 	- KiTTY moreover recognizes the cursor shapes sequences (insert and overwrite modes)
 
-  Linux Minicom (2.8)
+  Linux Minicom
     - sudo minicom -D /dev/ttyUSB1 -b 921600 -8 
 	- Press CTRL+A Z, press O then select "Serial port setup", press F to disable "Hadware flow control", press enter and select "Exit"
 	- Press CTRL+A Z, press S send a file, use "ascii" mode and then select the "b65.rom" file, press enter to send
@@ -181,8 +186,8 @@ to .coe file needed to initialize the Xilinx ROM (only in case of Xilinx FPGA im
 FPGA implementation
 ------------
 
-Some targets are implemented in FPGA using a Digilent Basys-3 board (Xilinx Artix(R)-7 XC7A35T)
-(https://digilent.com/shop/basys-3-artix-7-fpga-trainer-board-recommended-for-introductory-users).
+Some targets are implemented in FPGA using a
+[Digilent Basys-3 board](https://digilent.com/shop/basys-3-artix-7-fpga-trainer-board-recommended-for-introductory-users) (Xilinx Artix(R)-7 XC7A35T).
 
 A `basys3/vivado.tcl` script is proided to create the Vivado project
 
