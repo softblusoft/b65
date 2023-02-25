@@ -38,7 +38,7 @@ Design is divided into 'targets' with increasing features.
 Some files are duplicated across targets, it's wanted to clearly separate each development step.
 Build scripts are minimal and the whole project is intentionally written as simple as possible.
 
-:heavy_check_mark: All used software is free of charge, in most cases open source
+:heavy_check_mark: All used software is free, in most cases open source
 
 The following packages are used (not modified, not patched)
 
@@ -72,14 +72,14 @@ Useful links
 Common targets memory map
 
 | component |  Size   |   description    | Address range
-|-----------|---------|------------------|-----------------
+|-----------|--------:|------------------|-----------------
 | CPU       |         | 6502 CPU         |
 | RAM       |  ~56k   | RAM              | `0x0000 - 0xDBFF`
 | REG       |  16     | Registers bank   | `0xDC00 - 0xDFFF`
 | ROM       |  8k     | Program ROM      | `0xE000 - 0xFFFF`
 
 Common features
-- CPU  clock is  1MHz or 5MHz (depending on target)
+- CPU  clock is  5MHz
 - FPGA clock is 50MHz
 - Software is compiled with cc65 generating a .rom file to be saved into the ROM
 - A rom to coe utility is provided: Xilinx rom needs a .coe initialization file
