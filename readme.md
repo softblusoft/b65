@@ -28,7 +28,7 @@ Linux:
 
 Linux FPGA implementation:
  - `cd {nnn-target-name}/basys3`
- - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` &#2757; **See Known issues**
+ - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` :warning: **See Known issues**
 
 Introduction
 ------------
