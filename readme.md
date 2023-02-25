@@ -127,7 +127,6 @@ Targets
   - Software implementing a console over the UART
  
 :pushpin: Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
-
 :pushpin: After software download, to update the software again, the FPGA must be re-programmed
   
 Software download
@@ -211,8 +210,8 @@ Next times double click on .xpr file in `out/{nnn-target-name}/vivado` folder, d
 the .coe file is **copied** from soft folder to the rom IP folder by the tcl script.
 In case software is modified the .coe file must be manually updated.
 
-Tip : the file to download to the FPGA (the bitstream), is placed in `out/{nnn-target-name}/vivado/b65.runs/impl_1/top.bit`.
-      To download this file use Vivado (or Vivado Lab) Hardware manager
+:bulb: the file to download to the FPGA (the bitstream), is placed in `out/{nnn-target-name}/vivado/b65.runs/impl_1/top.bit`.
+       To download this file use Vivado (or Vivado Lab) Hardware manager
 
 Build script
 ------------
