@@ -158,7 +158,7 @@ Software download and console
 -----------------------------
 
 From target 003 there is a console over the UART.
-Type ? and press enter to list available commands
+Type `?` and press enter to list available commands
 
   Windows RealTerm
     - Set "Ansi" display mode, Baud 921600, Parity "None", Data bits "8", Stop bits "1", Hardware flow control "None"
@@ -193,25 +193,25 @@ FPGA implementation was tested with Vivado 2018.3
 
 :warning:
 Before running the Tcl script ensure software is built and
-initialization file `out/{target}/soft/b65.coe` is generated.
+initialization file `out/{nnn-target-name}/soft/b65.coe` is generated.
 To compile a target read "how to use" section later in this file
 
-To run the Tcl script open a command prompt (cmd.exe) and move to the `{target}/basys3` folder then run:
+To run the Tcl script open a command prompt (cmd.exe) and move to the `{nnn-target-name}/basys3` folder then run:
 	`{vivado folder}\{xxxx.y}\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
 where:
  - `{vivado folder}` is the installation folder, e.g. `C:\Xilinx\Vivado`
  - `{xxxx.y}`        is the vivado version,      e.g. `2018.3`
 
 When Vivado is opened the project is ready to be 'compiled' (synthesis, implementation, bitstream generation)
-The project is saved to `out/{target}/vivado` folder
+The project is saved to `out/{nnn-target-name}/vivado` folder
 
-Next times double click on .xpr file in `out/{target}/vivado` folder, don't run the Tcl script again
+Next times double click on .xpr file in `out/{nnn-target-name}/vivado` folder, don't run the Tcl script again
 
 :warning:
 the .coe file is **copied** from soft folder to the rom IP folder by the tcl script.
 In case software is modified the .coe file must be manually updated.
 
-Tip : the file to download to the FPGA (the bitstream), is placed in `out/{target}/vivado/b65.runs/impl_1/top.bit`.
+Tip : the file to download to the FPGA (the bitstream), is placed in `out/{nnn-target-name}/vivado/b65.runs/impl_1/top.bit`.
       To download this file use Vivado (or Vivado Lab) Hardware manager
 
 Build script
@@ -223,7 +223,7 @@ For Windows only, batch files to compile and run VHDL are provided; they are use
 ghdl (gcc backend) and gtkwave don't run inside MSYS. In case ghdl and/or gtkwave is present
 in MSYS, b65.sh script automatically detects the executables.
 
-**Important note** : in Windows, always build software first, then run the VHDL build batch file
+:pushpin: in Windows, always build software first, then run the VHDL build batch file
 
 Every target has at least two subfolders:
   - 'soft' for asm/c sources : b65.cfg crt0.s isr.s vectors.s *.c
@@ -248,11 +248,11 @@ To customize the behaviour:
 Clean
 -----
 
-To clean built targets, including rom2coe utility, remove the out folder
+To clean built targets, including rom2coe utility, remove the `out` folder
 
-To clean the cc65 compiler remove the cc65-2.19 folder
+To clean the cc65 compiler remove the `cc65-2.19` folder
 
-To clean the CPU 6502 VHDL sources remove the cpu65c02_true_cycle folder
+To clean the CPU 6502 VHDL sources remove the `cpu65c02_true_cycle` folder
 
 How to use (Ubuntu 22.10)
 -------------------------
@@ -265,7 +265,7 @@ How to use (Ubuntu 22.10)
       -   `sudo apt-get install libx32stdc++6-12-dbg python3-kerberos python3-paramiko python-configobj-doc python3-openssl python3-socks`
       -   `sudo apt-get install python-requests-doc python3-brotli`
 
-  -   **Tip** : before installing Vivado in Ubuntu be sure to have libtinfo5
+  -   :pushpin: before installing Vivado in Ubuntu be sure to have libtinfo5
       - `sudo apt-get install libtinfo5`
 
   -   Install GHDL gcc backend (v1.0.0 Compiled with GNAT Version: 10.4.0)
@@ -304,12 +304,12 @@ Known issues
 **Linux** (and only Linux) Vivado 2018.3 tcl script successfully creates the project
 but synthesis fails (after IP synthesized) with the following error:
 
-`
+```
 WARNING: [Vivado 12-818] No files matched 'b65/out/002-target-io/vivado/ip/ram/ram_ooc.xdc'
 ERROR: [Common 17-55] 'set_property' expects at least one object.
 Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
 INFO: [Common 17-206] Exiting Vivado at Thu Jan 26 15:38:08 2023...
-`
+```
 
 ram_ooc.xdc exist, have both read and write permissions and appears to be the
 same both in Linux and in Windows; even after changing newlines to unix style
