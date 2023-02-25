@@ -126,7 +126,7 @@ Targets
   - Ram and ram_code are essentially the same VHDL code (they could be reduced to a single file)
   - Software implementing a console over the UART
  
-:pushpin: Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado
+:pushpin: Download the .rom file, not the .coe which is useful only to initialize the FPGA memory from Vivado<br/>
 :pushpin: After software download, to update the software again, the FPGA must be re-programmed
   
 Software download
