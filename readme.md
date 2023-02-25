@@ -285,8 +285,8 @@ How to use (Windows 10)
     cc65 is built with msys/gcc and can be used only from MSYS2 shell.
     GHDL and Gtkwave are Win32 native and don't run inside MSYS2 environment (at least in my machine).
     Make sure ghdl (gcc backend) and gtkwave are in the system PATH
-    
-    **Powershell only** : the first run of `b65-win-vhdl.bat` after opening a
+   
+	:warning: **Powershell only** : the first run of `b65-win-vhdl.bat` after opening a
     powershell instance reports neglectable warnings in vhdl compile
 
 - Run b65 board:
