@@ -73,8 +73,16 @@ architecture behavioral of top is
 	-- General
 	signal locked				: std_logic;
 	signal locked_delay			: std_logic_vector ( 7 downto 0);
+	signal reset_clock			: std_logic							:= '1';
 	signal reset_system			: std_logic							:= '1';	-- Reset
+	signal reset_devices		: std_logic							:= '1';	-- Reset devices (extension(s))
 	signal reset_cpu			: std_logic							:= '0';	-- Reset (CPU only)
+
+	-- debounce
+	signal push_debounce_up		: std_logic_vector( 3 downto 0);			-- Input push buttons debounce up   event
+	signal push_debounce_down	: std_logic_vector( 3 downto 0);			-- Input push buttons debounce down event
+
+	signal upgrade				: std_logic							:= '0';	-- upgrade restart
 
 	-- Ram
 	signal ram_enable			: std_logic;
@@ -160,6 +168,25 @@ begin
 	rom_enable			<= '1'					when (reset_cpu = '0') else rom_enable_cpu;
 
 	led					<= led_soft_dl			when (reset_cpu = '0') else led_ext;
+	
+	-- reset the clock manager only if there is pressed button(0) too (reset is not debounced)
+	--
+	-- On basys3 : reset is the center (c) button and push(0) is the left (l) one:
+	--         __                  _______________           _____________                 _________
+	--  l ----|   \  reset_clock  |               | locked  |   _         | reset_system  |         | 
+	--        |    |------------->| clock_manager |-------->| _^   delay  |-------------->| soft_dl |--> reset_cpu
+	--  c --+-|__ /               |_______________|         |_____________|               |_________|
+	--      |                                                        ^
+	--      |________________________________________________________|
+	--
+	-- Suggested sequence is:
+	--   - press reset (c) to reset the design
+	--   - if it's not sufficient it means the clock_manager could be unlocked
+	--   - keeping reset (c) pressed press also the left button (l)
+	--   - release the left button only (l) to restart the clock_manager
+	--   - release the reset button (c) to restart the design
+	--
+	reset_clock			<= reset and push(0);
 
 	----------------------------------------------------------------------------
 	-- Components map
@@ -170,7 +197,7 @@ begin
 	port map	(
 					-- General
 					clk_in1						=> clock,				-- Input clock
-					reset						=> reset,
+					reset						=> reset_clock,
 					locked						=> locked,
 
 					-- Generated clocks
@@ -271,10 +298,12 @@ begin
 	port map	(
 					-- General
 					clock						=> clock_50M,
-					reset						=> reset_system,
+					reset						=> reset_devices,
 					enable						=> ext_enable,
 					enable_inputs				=> reset_cpu,
 					interrupt					=> cpu_irq,
+					upgrade						=> upgrade,
+
 
 					-- Write interface
 					write_address				=> ext_address,
@@ -287,7 +316,7 @@ begin
 					
 					-- I/O
 					outputs						=> led_ext,
-					inputs						=> "0000" & push & slide,			-- TODO : debounce slide and push
+					inputs						=> "0000" & push_debounce_up & slide,
 					digit						=> ext_digit,
 
 					-- UART
@@ -305,7 +334,9 @@ begin
 					clock						=> clock_50M,
 					reset						=> reset_system,
 					reset_cpu					=> reset_cpu,
+					reset_devices				=> reset_devices,
 					led							=> led_soft_dl,
+					upgrade						=> upgrade,
 
 					-- UART data receive
 					uart_rx_data				=> uart_rx_byte,
@@ -316,6 +347,25 @@ begin
 					write_enable				=> rom_write_enable,
 					write_data					=> rom_write_data
 				);
+
+	push_debounce : for id in 0 to 3 generate
+	inst_debounce: debounce
+	generic map	(
+					active_high					=> '1'
+				)
+	port map	(
+					-- General
+					clock						=> clock_50M,
+					reset						=> reset_system,
+
+				-- Signal input
+				signal_in						=> push(id),
+
+				-- Signal output
+				button_down						=> push_debounce_down(id),
+				button_up						=> push_debounce_up(id)
+			);
+	end generate;
 
 	---------------------------------------------------------------------------
 	-- Processes
@@ -336,11 +386,6 @@ begin
 					end if;
 					
 					-- Remove system reset
-					if (locked_delay = x"10") then
-						reset_system							<= '0';
-					end if;
-
-					-- Remove system and CPU reset
 					if (locked_delay = x"20") then
 						reset_system							<= '0';
 					end if;

@@ -89,7 +89,7 @@ architecture behavioral of board is
 	-- Software download simulation
 	signal download_control		: FSM_DL;												-- Download control FSM
 	signal download_done		: std_logic							:= '0';				-- Download done flag
-	signal download_wait		: integer range 0 to 63;								-- Download wait
+	signal download_wait		: integer;												-- Download wait
 
 	----------------------------------------------------------------------------
 	-- Components
@@ -206,6 +206,19 @@ begin
 		wait for  2 ms;
 		slide(8)	<= '1';
 
+--		wait for  1 ms;
+--		reset		<= '1';
+--		wait for  2 us;
+--		reset		<= '0';
+--		wait for  7 us;
+--		reset		<= '1';
+--		wait for  31 us;
+--		reset		<= '0';
+--		wait for  12 us;
+--		reset		<= '1';
+--		wait for  523 us;
+--		reset		<= '0';
+
 		wait;
 	end process;
 	
@@ -218,48 +231,48 @@ begin
 				uart_tx_byte_echo					<= x"00";
 				uart_tx_valid_echo					<= '0';
 				uart_control						<= ct_reset;
-			else
-				case (uart_control) is
-
-					-- reset state
-					when ct_reset =>
-						uart_control				<= ct_reset;
-						uart_tx_byte_echo			<= x"00";
-						uart_tx_valid_echo			<= '0';
-						
-						-- if UART is not busy, wait for an incoming data
-						if (uart_busy = '0') then
-							uart_control			<= ct_wait;
-						end if;
-
-					-- wait for an incoming byte and echo it
-					when ct_wait =>
-						uart_control				<= ct_wait;
-						uart_tx_byte_echo			<= x"00";
-						uart_tx_valid_echo			<= '0';
-
-						-- if UART is not busy and new data is incoming
-						if (uart_busy = '0' and uart_rx_valid = '1') then
-							uart_tx_byte_echo		<= uart_rx_byte;
-							uart_tx_valid_echo		<= '1';
-							uart_control			<= ct_complete;
-						end if;
-
-					-- complete sending operation
-					when ct_complete =>
-						uart_control				<= ct_complete;
-						uart_tx_byte_echo			<= x"00";
-						uart_tx_valid_echo			<= '0';
-
-						-- when UART accepted transmission, go to reset state
-						if (uart_busy = '1') then
-							uart_control			<= ct_reset;
-						end if;
-
-					-- Alignment state
-					when others =>
-						uart_control				<= ct_reset;
-				end case;
+--			else
+--				case (uart_control) is
+--
+--					-- reset state
+--					when ct_reset =>
+--						uart_control				<= ct_reset;
+--						uart_tx_byte_echo			<= x"00";
+--						uart_tx_valid_echo			<= '0';
+--						
+--						-- if UART is not busy, wait for an incoming data
+--						if (uart_busy = '0') then
+--							uart_control			<= ct_wait;
+--						end if;
+--
+--					-- wait for an incoming byte and echo it
+--					when ct_wait =>
+--						uart_control				<= ct_wait;
+--						uart_tx_byte_echo			<= x"00";
+--						uart_tx_valid_echo			<= '0';
+--
+--						-- if UART is not busy and new data is incoming
+--						if (uart_busy = '0' and uart_rx_valid = '1') then
+--							uart_tx_byte_echo		<= uart_rx_byte;
+--							uart_tx_valid_echo		<= '1';
+--							uart_control			<= ct_complete;
+--						end if;
+--
+--					-- complete sending operation
+--					when ct_complete =>
+--						uart_control				<= ct_complete;
+--						uart_tx_byte_echo			<= x"00";
+--						uart_tx_valid_echo			<= '0';
+--
+--						-- when UART accepted transmission, go to reset state
+--						if (uart_busy = '1') then
+--							uart_control			<= ct_reset;
+--						end if;
+--
+--					-- Alignment state
+--					when others =>
+--						uart_control				<= ct_reset;
+--				end case;
 			end if; -- reset
 		end if; -- clock
 	end process;	
@@ -267,6 +280,8 @@ begin
 	-- download software rom file
 	download_software : process(clock)
 		file		var_file_handle		: CHAR_FILE;
+		variable 	var_file_status		: FILE_OPEN_STATUS;
+		variable	var_file_is_open	: integer;
 		variable	var_char			: character;
 		variable	var_offset			: integer;
 	begin
@@ -277,6 +292,12 @@ begin
 				download_done						<= '0';
 				download_wait						<= 0;
 				download_control					<= dl_wait;
+				
+				if (var_file_is_open /= 0) then
+					file_close(var_file_handle);
+				end if;
+				
+				var_file_is_open					:= 0;
 
 				uart_tx_valid_soft_dl				<= '0';
 				uart_tx_byte_soft_dl				<= (others => '0');
@@ -288,8 +309,16 @@ begin
 						if (download_wait = 63) then
 							download_control		<= dl_run;
 							var_offset				:= 0;
-							file_open(var_file_handle, filename);
-							Log("Software download start");
+							var_file_is_open		:= 1;
+							file_open(var_file_status, var_file_handle, filename, READ_MODE);
+
+							   if (var_file_status = OPEN_OK)		then Log("Software download start");
+							elsif (var_file_status = STATUS_ERROR)	then Log("Cannot open [" & filename & "] STATUS_ERROR");
+							elsif (var_file_status = NAME_ERROR)	then Log("Cannot open [" & filename & "] NAME_ERROR");
+							elsif (var_file_status = MODE_ERROR)	then Log("Cannot open [" & filename & "] MODE_ERROR");
+																	else Log("Cannot open [" & filename & "] <unknown error>");
+							end if;
+
 						else
 							download_wait			<= download_wait + 1;
 						end if;
@@ -326,7 +355,10 @@ begin
 						if (uart_busy = '0') then
 							if (endfile(var_file_handle)) then
 								download_control	<= dl_done;
+								download_wait		<= 0;
 								download_done		<= '1';
+								var_file_is_open	:= 0;
+								file_close(var_file_handle);
 								Log("Software download completed");
 							else
 								download_control	<= dl_run;							
@@ -335,7 +367,14 @@ begin
 
 					-- Download done
 					when dl_done =>
-						file_close(var_file_handle);
+						if (download_wait = 1000000) then
+							download_control		<= dl_wait;
+							download_wait			<= 0;
+							download_done			<= '0';
+							Log("Software download restart");
+						else
+							download_wait			<= download_wait + 1;
+						end if;
 
 					-- Alignment state
 					when others =>

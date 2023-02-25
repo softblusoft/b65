@@ -18,19 +18,28 @@
 ///////////////////////////////////////////////////////////
 // Includes
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "uart.h"
 #include "console.h"
 
 ///////////////////////////////////////////////////////////
+// Portability layer
+
+#define CONSOLE_MEMSET					memset
+#define CONSOLE_MEMCPY					memcpy
+#define CONSOLE_STRLEN					strlen
+#define CONSOLE_STRNCMP					strncmp
+
+#define CONSOLE_PUTSTRING				uartPutstring
+#define CONSOLE_PUTCHAR					uartPutchar
+
+///////////////////////////////////////////////////////////
 // Console escape sequences
 
-// Prompt string
-#define CONSOLE_PROMPT					"\r\n>"
-
 // Escape sequences
+#define CONSOLE_NEWLINE					"\r\n"
 #define CONSOLE_CLEAR_LINE_FROM_CURSOR	"\033[K"
 #define CONSOLE_MOVE_RIGHT				"\033[C\0"
 #define CONSOLE_MOVE_LEFT				"\033[D\0"
@@ -72,16 +81,26 @@ typedef enum _CONSOLE_CONTROL_
 ///	\param	Ctx		:	Console context
 ///
 ///////////////////////////////////////////////////////////
+#if (CONSOLE_INS_MODE == 0)
+#pragma warn (unused-param, push, off)
+#endif
 static void ConsolePrompt(CONSOLE_CONTEXT *Ctx)
 {
+#if (CONSOLE_INS_MODE != 0)
 	switch (Ctx->insmode)
 	{
-		case CONSOLE_INS_INSERT:	uartTX(CONSOLE_CURSOR_BAR);			break;
-		case CONSOLE_INS_OVERWRITE:	uartTX(CONSOLE_CURSOR_UNDERLINE);	break;
+		case CONSOLE_INS_INSERT:	CONSOLE_PUTSTRING(CONSOLE_CURSOR_BAR);			break;
+		case CONSOLE_INS_OVERWRITE:	CONSOLE_PUTSTRING(CONSOLE_CURSOR_UNDERLINE);	break;
 	}
+#else
+	CONSOLE_PUTSTRING(CONSOLE_CURSOR_BAR);
+#endif
 
-	uartTX(CONSOLE_PROMPT);
+	CONSOLE_PUTSTRING(CONSOLE_NEWLINE CONSOLE_PROMPT);
 }
+#if (CONSOLE_INS_MODE == 0)
+#pragma warn (unused-param, pop)
+#endif
 
 ///////////////////////////////////////////////////////////
 ///
@@ -93,7 +112,7 @@ static void ConsolePrompt(CONSOLE_CONTEXT *Ctx)
 static void ConsoleMoveLeft(unsigned char Count)
 {
 	while (Count--)
-		uartTX(CONSOLE_MOVE_LEFT);
+		CONSOLE_PUTSTRING(CONSOLE_MOVE_LEFT);
 }
 
 ///////////////////////////////////////////////////////////
@@ -106,10 +125,10 @@ static void ConsoleMoveLeft(unsigned char Count)
 static void ConsoleMoveRight(unsigned char Count)
 {
 	while (Count--)
-		uartTX(CONSOLE_MOVE_RIGHT);
+		CONSOLE_PUTSTRING(CONSOLE_MOVE_RIGHT);
 }
 
-#if (CONSOLE_MAX_HISTORY > 0)
+#if (CONSOLE_MAX_HISTORY > 1)
 ///////////////////////////////////////////////////////////
 ///
 /// Save the current buffer to the history
@@ -119,7 +138,7 @@ static void ConsoleMoveRight(unsigned char Count)
 ///////////////////////////////////////////////////////////
 static void ConsoleHistoryWrite(CONSOLE_CONTEXT *Ctx)
 {
-	memcpy(Ctx->history[Ctx->historyWrite], Ctx->buffer, Ctx->end + 1);
+	CONSOLE_MEMCPY(Ctx->history[Ctx->historyWrite], Ctx->buffer, Ctx->end + 1);
 
 	Ctx->historyRead = Ctx->historyWrite;
 
@@ -140,7 +159,7 @@ static void ConsoleHistoryWrite(CONSOLE_CONTEXT *Ctx)
 ///						- CONSOLE_CTRL_ARROW_UP
 ///						- CONSOLE_CTRL_ARROW_DOWN
 ///
-/// \return char*	:	Current history buffer or NULL if none
+/// \return char*	:	Current history buffer or 0 if none
 ///
 ///////////////////////////////////////////////////////////
 static unsigned char* ConsoleHistoryRecall(CONSOLE_CONTEXT *Ctx, unsigned char Dir)
@@ -148,7 +167,7 @@ static unsigned char* ConsoleHistoryRecall(CONSOLE_CONTEXT *Ctx, unsigned char D
 	unsigned char *Buf;
 
 	if (Ctx->historyCount == 0)
-		return NULL;
+		return 0;
 
 	if (Ctx->historyActive)
 	{
@@ -172,8 +191,9 @@ static unsigned char* ConsoleHistoryRecall(CONSOLE_CONTEXT *Ctx, unsigned char D
 	Ctx->historyActive = 1;
 	return Buf;
 }
-#endif
+#endif // (CONSOLE_MAX_HISTORY > 1)
 
+#if (CONSOLE_MAX_HISTORY > 0)
 ///////////////////////////////////////////////////////////
 ///
 /// Set the indicated buffer as the current one
@@ -186,25 +206,29 @@ static void ConsoleSetBuffer(CONSOLE_CONTEXT *Ctx, unsigned char *Buffer)
 {
 	unsigned char Len;
 
-	if (Buffer == NULL)
+	if (Buffer == 0)
 		return;
-	
+
 	// Reset terminal
 	if (Ctx->current > 0)
 		ConsoleMoveLeft(Ctx->current);
 
 	// Set new buffer
-	Len = strlen(Buffer);
-	memcpy(Ctx->buffer, Buffer, Len);
-	Ctx->buffer[Len] = '\0';
+	Len = CONSOLE_STRLEN(Buffer);
+	if (Buffer != Ctx->buffer)
+	{
+		CONSOLE_MEMCPY(Ctx->buffer, Buffer, Len);
+		Ctx->buffer[Len] = '\0';
+	}
 
 	Ctx->current	= Len;
 	Ctx->end		= Len;
 
 	// Update terminal
-	uartTX(CONSOLE_CLEAR_LINE_FROM_CURSOR);
-	uartTX(Ctx->buffer);
+	CONSOLE_PUTSTRING(CONSOLE_CLEAR_LINE_FROM_CURSOR);
+	CONSOLE_PUTSTRING(Ctx->buffer);
 }
+#endif // (CONSOLE_MAX_HISTORY > 0)
 
 ///////////////////////////////////////////////////////////
 ///
@@ -218,7 +242,9 @@ static void ConsoleInsert(CONSOLE_CONTEXT *Ctx, unsigned char Byte)
 {
 	unsigned char Index = Ctx->end;
 
+#if (CONSOLE_INS_MODE != 0)
 	if (Ctx->insmode == CONSOLE_INS_INSERT)
+#endif
 	{
 		if (Index > CONSOLE_MAX_COMMAND - 1)
 			Index = CONSOLE_MAX_COMMAND - 1;
@@ -235,22 +261,28 @@ static void ConsoleInsert(CONSOLE_CONTEXT *Ctx, unsigned char Byte)
 	Ctx->buffer[Ctx->current] = Byte;
 	if (Ctx->current < CONSOLE_MAX_COMMAND)
 	{
+	#if (CONSOLE_INS_MODE != 0)
 		if ((Ctx->insmode == CONSOLE_INS_INSERT) || (Ctx->current == Ctx->end))
+	#endif
 			Ctx->end++;
 
 		Ctx->current++;
 	}
 	
 	// Adjust the terminal
+#if (CONSOLE_INS_MODE != 0)
 	if ((Ctx->insmode == CONSOLE_INS_INSERT) && (Ctx->current != Ctx->end))
+#else
+	if (Ctx->current != Ctx->end)
+#endif
 	{
 		Ctx->buffer[Ctx->end] = '\0';
-		uartTX(CONSOLE_CLEAR_LINE_FROM_CURSOR);
-		uartTX(&Ctx->buffer[Ctx->current-1]);
+		CONSOLE_PUTSTRING(CONSOLE_CLEAR_LINE_FROM_CURSOR);
+		CONSOLE_PUTSTRING(&Ctx->buffer[Ctx->current-1]);
 		ConsoleMoveLeft(Ctx->end - Ctx->current);
 	}
 	else
-		uartPut(Byte);
+		CONSOLE_PUTCHAR(Byte);
 	
 	#if (CONSOLE_MAX_HISTORY > 0)
 		Ctx->historyActive = 0;
@@ -270,8 +302,8 @@ static void ConsoleBackspace(CONSOLE_CONTEXT *Ctx)
 
 	if ((Ctx->current > 0) && (Ctx->current <= Ctx->end))
 	{
-		uartTX(CONSOLE_MOVE_LEFT);
-		uartTX(CONSOLE_CLEAR_LINE_FROM_CURSOR);
+		CONSOLE_PUTSTRING(CONSOLE_MOVE_LEFT);
+		CONSOLE_PUTSTRING(CONSOLE_CLEAR_LINE_FROM_CURSOR);
 
 		Index = Ctx->current - 1;
 		while (Index < Ctx->end)
@@ -284,7 +316,7 @@ static void ConsoleBackspace(CONSOLE_CONTEXT *Ctx)
 		Ctx->current--;
 		Ctx->buffer[Ctx->end] = '\0';
 
-		uartTX(&Ctx->buffer[Ctx->current]);
+		CONSOLE_PUTSTRING(&Ctx->buffer[Ctx->current]);
 		if (Ctx->current < Ctx->end)
 			ConsoleMoveLeft(Ctx->end - Ctx->current);
 	}
@@ -303,7 +335,7 @@ static void ConsoleCancel(CONSOLE_CONTEXT *Ctx)
 
 	if ((Ctx->end > 0) && (Ctx->current < Ctx->end))
 	{
-		uartTX(CONSOLE_CLEAR_LINE_FROM_CURSOR);
+		CONSOLE_PUTSTRING(CONSOLE_CLEAR_LINE_FROM_CURSOR);
 
 		Index = Ctx->current;
 		while (Index < Ctx->end)
@@ -317,7 +349,7 @@ static void ConsoleCancel(CONSOLE_CONTEXT *Ctx)
 	
 		Ctx->buffer[Ctx->end] = '\0';
 
-		uartTX(&Ctx->buffer[Ctx->current]);
+		CONSOLE_PUTSTRING(&Ctx->buffer[Ctx->current]);
 		ConsoleMoveLeft(Ctx->end - Ctx->current);
 
 		if (Ctx->current > 0)
@@ -334,7 +366,6 @@ static void ConsoleCancel(CONSOLE_CONTEXT *Ctx)
 ///////////////////////////////////////////////////////////
 static void ConsoleExecute(CONSOLE_CONTEXT *Ctx)
 {
-	unsigned char buffer[64];
 	unsigned char Done = 0;
 	unsigned char Index;
 	unsigned char Len;
@@ -344,23 +375,22 @@ static void ConsoleExecute(CONSOLE_CONTEXT *Ctx)
 		Ctx->buffer[Ctx->end]				= '\0';
 		Ctx->buffer[CONSOLE_MAX_COMMAND-1]	= '\0';
 
-		// Write History
-	#if (CONSOLE_MAX_HISTORY > 0)
-		if (Ctx->historyActive == 0)
-			ConsoleHistoryWrite(Ctx);
-		Ctx->historyActive = 0;
-	#endif
-
 		// If not commented out, execute
 		if (Ctx->buffer[0] != '#')
 		{
 			for (Index = 0; Index < Ctx->commandCount; Index++)
 			{
-				Len = strlen(Ctx->command[Index].command);
-				if ((strncmp(Ctx->command[Index].command, Ctx->buffer, Len) == 0) && Ctx->command[Index].callback)
+				Len = CONSOLE_STRLEN(Ctx->command[Index].command);
+				if ((CONSOLE_STRNCMP(Ctx->command[Index].command, Ctx->buffer, Len) == 0) && Ctx->command[Index].callback)
 				{
-					uartTX("\r\n");
+					CONSOLE_PUTSTRING(CONSOLE_NEWLINE);
+
+				#if (CONSOLE_CALLBACK_USER_ARG != 0)
 					Ctx->command[Index].callback(Ctx->buffer,  Ctx->command[Index].arg);
+				#else
+					Ctx->command[Index].callback(Ctx->buffer);
+				#endif
+
 					Done = 1;
 					break;
 				}
@@ -368,9 +398,23 @@ static void ConsoleExecute(CONSOLE_CONTEXT *Ctx)
 
 			if (Done == 0)
 			{
-				sprintf(buffer, "\r\n  ERROR : command [%s] not found", Ctx->buffer);
-				uartTX(buffer);
+				CONSOLE_PUTSTRING(CONSOLE_NEWLINE "  ERROR : command [");
+				CONSOLE_PUTSTRING(Ctx->buffer);
+				CONSOLE_PUTSTRING("] not found");
 			}
+			#if (CONSOLE_MAX_HISTORY > 0)
+			else 
+			{
+				// Write History
+				if (Ctx->historyActive == 0)
+				#if (CONSOLE_MAX_HISTORY > 1)
+					ConsoleHistoryWrite(Ctx);
+				#else
+					Ctx->historyCount = 1;
+				#endif
+				Ctx->historyActive = 0;
+			}
+			#endif
 		}
 	}
 
@@ -404,7 +448,7 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 			ConsolePrompt(Ctx);
 		break;
 
-	//	case CONSOLE_CTRL_EOF:			uartTX("CTRL+D\r\n");		break;
+	//	case CONSOLE_CTRL_EOF:			break;
 	
 		case CONSOLE_CTRL_BACKSPACE:
 			ConsoleBackspace(Ctx);
@@ -413,7 +457,7 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 		case CONSOLE_CTRL_CLEAR_LINE:
 			if (Ctx->current > 0)
 				ConsoleMoveLeft(Ctx->current);
-			uartTX(CONSOLE_CLEAR_LINE_FROM_CURSOR);
+			CONSOLE_PUTSTRING(CONSOLE_CLEAR_LINE_FROM_CURSOR);
 			Ctx->current	= 0;
 			Ctx->end		= 0;
 		break;
@@ -434,26 +478,33 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 			}
 		break;
 		
+#if (CONSOLE_INS_MODE != 0)
 		// Insert or overwrite mode
 		case CONSOLE_CTRL_INSERT:
 			switch(Ctx->insmode)
 			{
-				case CONSOLE_INS_INSERT:	Ctx->insmode = CONSOLE_INS_OVERWRITE;	uartTX(CONSOLE_CURSOR_UNDERLINE);	break;
-				case CONSOLE_INS_OVERWRITE:	Ctx->insmode = CONSOLE_INS_INSERT;		uartTX(CONSOLE_CURSOR_BAR);			break;
+				case CONSOLE_INS_INSERT:	Ctx->insmode = CONSOLE_INS_OVERWRITE;	CONSOLE_PUTSTRING(CONSOLE_CURSOR_UNDERLINE);	break;
+				case CONSOLE_INS_OVERWRITE:	Ctx->insmode = CONSOLE_INS_INSERT;		CONSOLE_PUTSTRING(CONSOLE_CURSOR_BAR);			break;
 			}
 		break;		
+#endif
 
 		case CONSOLE_CTRL_CANCEL:
 			ConsoleCancel(Ctx);
 		break;
 
-	//	case CONSOLE_CTRL_PAGE_UP:		uartTX("Pg Up\r\n");		break;
-	//	case CONSOLE_CTRL_PAGE_DOWN:	uartTX("Pg down\r\n");		break;
+	//	case CONSOLE_CTRL_PAGE_UP:		break;
+	//	case CONSOLE_CTRL_PAGE_DOWN:	break;
 
 	#if (CONSOLE_MAX_HISTORY > 0)
 		case CONSOLE_CTRL_ARROW_UP:
 		case CONSOLE_CTRL_ARROW_DOWN:
-			ConsoleSetBuffer(Ctx, ConsoleHistoryRecall(Ctx, Ctrl));
+			#if (CONSOLE_MAX_HISTORY > 1)
+				ConsoleSetBuffer(Ctx, ConsoleHistoryRecall(Ctx, Ctrl));
+			#else
+				Ctx->historyActive = 1;
+				ConsoleSetBuffer(Ctx, Ctx->buffer);
+			#endif
 		break;
 	#endif
 
@@ -461,7 +512,7 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 			if (Ctx->current > 0)
 			{
 				Ctx->current--;
-				uartTX(CONSOLE_MOVE_LEFT);
+				CONSOLE_PUTSTRING(CONSOLE_MOVE_LEFT);
 			}
 		break;
 
@@ -469,7 +520,7 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 			if (Ctx->current < Ctx->end)
 			{
 				Ctx->current++;
-				uartTX(CONSOLE_MOVE_RIGHT);
+				CONSOLE_PUTSTRING(CONSOLE_MOVE_RIGHT);
 			}
 		break;
 	}
@@ -494,7 +545,7 @@ static void ConsoleControlChar(CONSOLE_CONTEXT *Ctx, CONSOLE_CONTROL Ctrl)
 ///////////////////////////////////////////////////////////
 void ConsoleInit(CONSOLE_CONTEXT *Ctx, const CONSOLE_COMMAND *Command, unsigned char Count)
 {
-	memset(Ctx, 0, sizeof(CONSOLE_CONTEXT));
+	CONSOLE_MEMSET(Ctx, 0, sizeof(CONSOLE_CONTEXT));
 
 	Ctx->command		= Command;
 	Ctx->commandCount	= Count;

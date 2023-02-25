@@ -17,6 +17,7 @@
 
 // Extension registers
 #define REGEXT_BASE				0xDC00
+
 #define R_MODE					(*((unsigned char*) REGEXT_BASE + 0x00))
 #define R_OUT0					(*((unsigned char*) REGEXT_BASE + 0x01))
 #define R_OUT1					(*((unsigned char*) REGEXT_BASE + 0x02))

@@ -18,35 +18,45 @@
 ///////////////////////////////////////////////////////////
 // Includes
 
-#include "extension.h"
-
 ///////////////////////////////////////////////////////////
 // Functions
 
 ///////////////////////////////////////////////////////////
 ///
-/// Put a char to the UART
+/// Convert a Hex string starting with 0x to short integer
 ///
-///	\param	ch : char to write to the UART
+///	\param	Hex				:	Hex string
+///	\param	buf				:	Pointer to input string after hex string
+///								(with eventual spaces removed)
+///
+/// \return unsigned short	:	converted short value
 ///
 ///////////////////////////////////////////////////////////
-void uartPutchar(const unsigned char ch)
+unsigned short HexToNum(unsigned char *Hex, unsigned char **buf)
 {
-	R_TX = ch;
-}
+	unsigned short	Value	= 0;
+	unsigned char	Byte	= 16;
+	unsigned char	Index	= 2;
 
-///////////////////////////////////////////////////////////
-///
-/// Put a string to the UART
-///
-///	\param	st : string to write to the UART
-///
-///////////////////////////////////////////////////////////
-void uartPutstring(const unsigned char *st)
-{
-	while(*st)
+	if ((Hex[0] != '0') || ((Hex[1] != 'x') && (Hex[1] != 'X')))
+		return 0;
+
+	while (Hex[Index] > ' ')
 	{
-		R_TX = *st;
-		++st;
+		Byte -= 4;
+		if (Hex[Index] <= '9')
+			Value |= (Hex[Index] - '0') << Byte;
+		else
+			Value |= (Hex[Index] - '7') << Byte;
+
+		Index++;
 	}
+
+	while (Hex[Index] == ' ')
+		Index++;
+
+	if (buf)
+		*buf = &Hex[Index];
+
+	return Value >> Byte;
 }

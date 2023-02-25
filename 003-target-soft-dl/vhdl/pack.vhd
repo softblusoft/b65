@@ -160,6 +160,7 @@ package PACK is
 				enable					: in		std_logic;								-- block enable
 				enable_inputs			: in		std_logic;								-- enable inputs and Rx
 				interrupt				: out		std_logic;								-- interrupt
+				upgrade					: out		std_logic;								-- upgrade restart
 
 				-- Write interface
 				write_address			: in		std_logic_vector( 3	downto 0);			-- write Address
@@ -216,7 +217,9 @@ package PACK is
 				clock					: in		std_logic;								-- Clock
 				reset					: in		std_logic;								-- reset
 				reset_cpu				: out		std_logic;								-- CPU reset
+				reset_devices			: out		std_logic;								-- CPU devices
 				led						: out		std_logic_vector(15 downto 0);			-- Led
+				upgrade					: in		std_logic;								-- upgrade restart
 
 				-- UART data receive
 				uart_rx_data			: in		std_logic_vector(7 downto 0);			-- UART received data
@@ -226,6 +229,24 @@ package PACK is
 				write_address			: out		std_logic_vector(12	downto 0);			-- write Address
 				write_enable			: out		std_logic_vector( 0 downto 0);			-- Write enable
 				write_data				: out		std_logic_vector( 7	downto 0)			-- Data IN
+			);
+	end component;
+
+	component debounce is
+	generic (
+				active_high				: 			std_logic			:= '1'				-- Button logic (active high = signal_in is high if button is pressed)
+			);
+	port	(
+				-- General
+				clock					: in		std_logic;								-- Clock
+				reset					: in		std_logic;								-- Reset
+
+				-- Signal input
+				signal_in				: in		std_logic;								-- Input signal
+
+				-- Signal output
+				button_down				: out		std_logic;								-- "button down" event (1CK on button event)
+				button_up				: out		std_logic								-- "button up" event   (1CK on button event)
 			);
 	end component;
 

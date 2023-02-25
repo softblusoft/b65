@@ -52,13 +52,16 @@ end ram;
 
 architecture behavioral of ram is
 
-	constant ram_cells : integer := 56320; -- number of memory cells
+	----------------------------------------------------------------------------
+	-- Constants
+
+	constant RAM_CELLS : integer := 56320; -- number of memory cells
 
 	----------------------------------------------------------------------------
 	-- Data types
 
 	-- Memory data
-	type RAM_MEMORY is array(0 to ram_cells-1) of std_logic_vector(7 downto 0);
+	type RAM_MEMORY is array(0 to RAM_CELLS-1) of std_logic_vector(7 downto 0);
 
 	----------------------------------------------------------------------------
 	-- Signals
@@ -82,7 +85,7 @@ begin
 			-- If reset
 			if (rsta = '1') then
 				douta <= (others => '0');
-			elsif (ena = '1') and (conv_integer(addra) < ram_cells) then
+			elsif (ena = '1') and (conv_integer(addra) < RAM_CELLS) then
 				douta <= memory(conv_integer(addra));
 			end if; -- reset
 		end if; -- clock event
@@ -94,10 +97,10 @@ begin
 			-- If reset
 			if (rsta = '1')then
 				-- Reset RAM
-				for address in 0 to ram_cells-1 loop
+				for address in 0 to RAM_CELLS-1 loop
 					memory(address) <= (others => '0');
 				end loop;				
-			elsif (ena = '1') and (wea(0) = '1') and (conv_integer(addra) < ram_cells) then
+			elsif (ena = '1') and (wea(0) = '1') and (conv_integer(addra) < RAM_CELLS) then
 				-- Memory Write
 				memory(conv_integer(addra)) <= dina;
 			end if; -- reset

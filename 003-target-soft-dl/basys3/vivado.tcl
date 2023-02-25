@@ -37,6 +37,7 @@ set files_vhdl [list 												\
 	"[file normalize "../../$Target_Path/vhdl/uart.vhd"]"			\
 	"[file normalize "../../$Target_Path/vhdl/extension.vhd"]"		\
 	"[file normalize "../../$Target_Path/vhdl/soft-dl.vhd"]"		\
+	"[file normalize "../../$Target_Path/vhdl/debounce.vhd"]"		\
 ]
 
 set files_top [list 												\

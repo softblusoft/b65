@@ -18,11 +18,10 @@
 ///////////////////////////////////////////////////////////
 // Includes
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <6502.h>
+
 #include "extension.h"
+#include "lib.h"
 #include "uart.h"
 #include "console.h"
 
@@ -31,77 +30,108 @@
 
 // Variable shared with assembler; it's updated in IRQ handler (see isr.s)
 unsigned char	g_uart_rx_count;
+
+// Console context
 CONSOLE_CONTEXT	g_console_context;
+
+///////////////////////////////////////////////////////////
+// Assembler routines
+
+extern void reboot();
 
 ///////////////////////////////////////////////////////////
 // Functions declaration
 
-void help		(unsigned char *Command, void *Arg);
-void cls		(unsigned char *Command, void *Arg);
-void history	(unsigned char *Command, void *Arg);
-void display	(unsigned char *Command, void *Arg);
+void help		(unsigned char *Command);
+void cls		(unsigned char *Command);
+void echo		(unsigned char *Command);
+#if (CONSOLE_MAX_HISTORY > 0)
+void history	(unsigned char *Command);
+#endif
+void display	(unsigned char *Command);
+void dump		(unsigned char *Command);
+void write		(unsigned char *Command);
+void upgrade	(unsigned char *Command);
 
 ///////////////////////////////////////////////////////////
-// Commands
+// Console commands table
 
 static const CONSOLE_COMMAND g_ConsoleCommand[] =
 {
-	{	"?",		help,	0,		"Show a short commands description"		},
-	{	"cls",		cls,	0,		"Clear screen"							},
+	{	"?",		help,		"show commands help"		},
+	{	"cls",		cls,		"clear screen"				},
+	{	"echo",		echo,		"echo <string>"				},
 
-//	{	"reboot",	0, 0,			"Reboot CPU"							},
-//	{	"upgrade",	0, 0,			"Upgrade software"						},
-
-#if (CONSOLE_MAX_HISTORY > 0)
-	{	"history",	history, 0,		"Show the commands history"				},
+// No history command with only the last command
+#if (CONSOLE_MAX_HISTORY > 1)
+	{	"history",	history,	"history print"				},
 #endif
 
-	{	"display",	display, 0,		"Print 4 chars on 7 segments display"	},
+	{	"display",	display,	"display <4 chars> on lcd"	},
+	{	"dump",		dump,		"dump <0xstart> <0xlen>"	},
+	{	"write",	write,		"set <0xaddress> <0xbyte>"	},
 
+	{	"reboot",	reboot,		"Reboot CPU"				},
+	{	"upgrade",	upgrade,	"Start software upgrade"	},
 };
 
 ///////////////////////////////////////////////////////////
 // Functions
-
-// Disable "unused param" warningfor callbacks
-#pragma warn (unused-param, push, off)
 
 ///////////////////////////////////////////////////////////
 ///
 /// Show a short help message
 ///
 ///	\param	Command		:	User command string
-///	\param	Arg			:	Optional callback user argument
 ///
 ///////////////////////////////////////////////////////////
-void help(unsigned char *Command, void *Arg)
+#pragma warn (unused-param, push, off)
+void help(unsigned char *Command)
 {
-	unsigned char buffer[32];
-	unsigned char fill[16] = "                ";
 	unsigned char Len;
 	unsigned char Index;
-	
+
 	for (Index = 0; Index < sizeof(g_ConsoleCommand) / sizeof(CONSOLE_COMMAND); Index++)
 	{
 		Len = strlen(g_ConsoleCommand[Index].command);
-		fill[12-Len] = '\0';
-		sprintf(buffer, "  %s%s%s\r\n", g_ConsoleCommand[Index].command, fill, g_ConsoleCommand[Index].help);
-		fill[12-Len] = ' ';
-		uartTX(buffer);
+		uartPutstring("  ");
+		uartPutstring(g_ConsoleCommand[Index].command);
+		Len = 16 - Len;
+		while(Len > 0)
+		{
+			uartPutstring(" ");
+			Len--;
+		}
+		uartPutstring(g_ConsoleCommand[Index].help);
+		uartPutstring("\r\n");
 	}
 }
+#pragma warn (unused-param, pop)
 
 ///////////////////////////////////////////////////////////
 ///
-/// Sen the escape sequence to clear screen
+/// Send the escape sequence to clear screen
 ///
 ///	\param	Command		:	User command string
-///	\param	Arg			:	Optional callback user argument
 ///
 ///////////////////////////////////////////////////////////
-void cls(unsigned char *Command, void *Arg)
+#pragma warn (unused-param, push, off)
+void cls(unsigned char *Command)
 {
-	uartTX("\033[H\033[J");
+	uartPutstring("\033[H\033[J");
+}
+#pragma warn (unused-param, pop)
+
+///////////////////////////////////////////////////////////
+///
+/// echo a string
+///
+///	\param	Command		:	User command string
+///
+///////////////////////////////////////////////////////////
+void echo(unsigned char *Command)
+{
+	uartPutstring(&Command[5]);
 }
 
 ///////////////////////////////////////////////////////////
@@ -109,20 +139,35 @@ void cls(unsigned char *Command, void *Arg)
 /// Show the commands history
 ///
 ///	\param	Command		:	User command string
-///	\param	Arg			:	Optional callback user argument
 ///
 ///////////////////////////////////////////////////////////
-void history(unsigned char *Command, void *Arg)
+#if (CONSOLE_MAX_HISTORY > 1)
+#pragma warn (unused-param, push, off)
+void history(unsigned char *Command)
 {
-	unsigned char buffer[32];
 	unsigned char Index;
-	
+	unsigned char Tens	= 0;
+	unsigned char Units = 0;
+
 	for (Index = 0; Index < g_console_context.historyCount; Index++)
 	{
-		sprintf(buffer, "[%d] %s\r\n", Index, g_console_context.history[Index]);
-		uartTX(buffer);
-	}	
+		uartPutstring("  [");
+		uartPutchar('0' + Tens);
+		uartPutchar('0' + Units);
+		uartPutstring("] ");
+		uartPutstring(g_console_context.history[Index]);
+		uartPutstring("\r\n");
+
+		Units++;
+		if (Units == 10)
+		{
+			Units = 0;
+			Tens++;
+		}
+	}
 }
+#pragma warn (unused-param, pop)
+#endif
 
 ///////////////////////////////////////////////////////////
 ///
@@ -130,10 +175,9 @@ void history(unsigned char *Command, void *Arg)
 /// of the basys3 board
 ///
 ///	\param	Command		:	User command string
-///	\param	Arg			:	Optional callback user argument
 ///
 ///////////////////////////////////////////////////////////
-void display(unsigned char *Command, void *Arg)
+void display(unsigned char *Command)
 {
 	//             0123456789AB
 	// Command is "display 1234"
@@ -145,6 +189,121 @@ void display(unsigned char *Command, void *Arg)
 	if (Len >= 10) R_DIGIT2 = Command[ 9]; else R_DIGIT2 = 0; 
 	if (Len >= 11) R_DIGIT1 = Command[10]; else R_DIGIT1 = 0; 
 	if (Len >= 12) R_DIGIT0 = Command[11]; else R_DIGIT0 = 0;
+}
+
+///////////////////////////////////////////////////////////
+///
+/// Dump a memory buffer
+///
+///	\param	Command		:	User command string
+///
+/// \note	Command format is
+///				dump <start> <size in bytes>
+///
+///			the output is 8 bytes per line Hex + ascii
+///     		00 00 00 00 00 00 00 00 ........
+///
+///			All parameters must be Hex with '0x' prefix
+///
+///////////////////////////////////////////////////////////
+void dump(unsigned char *Command)
+{
+	unsigned char		Ascii[12];
+	unsigned char		Index	= 0;
+	unsigned char		Offset	= 0;
+	unsigned short		start;
+	unsigned char		length;
+	unsigned char		Nibble;
+	unsigned char		Byte;
+	unsigned char	   *data;
+
+	start	= HexToNum(&Command[5], &data);
+	length	= HexToNum(data, NULL);
+	data	= (unsigned char*) start;
+
+	while (Index < length)
+	{
+		Byte = data[Index];
+
+		Nibble = (Byte >> 4) & 0x0F;
+		if (Nibble <= 9)
+			uartPutchar('0' + Nibble);
+		else
+			uartPutchar('7' + Nibble); // 7 is ascii 55, adding +10 = 65 i.e. 'A'
+
+		Nibble = Byte & 0x0F;
+		if (Nibble <= 9)
+			uartPutchar('0' + Nibble);
+		else
+			uartPutchar('7' + Nibble);
+
+		uartPutchar(' ');
+
+		if ((Byte >= 0x20) && (Byte < 0x7F))
+			Ascii[Offset] = Byte;
+		else
+			Ascii[Offset] = '.';
+
+		Index++;
+		Offset++;
+		if ((Offset == 8) || (Index == length))
+		{
+			while (Offset < 8)
+			{
+				uartPutstring("   ");
+				Offset++;
+			}
+
+			Ascii[Offset++] = '\r';
+			Ascii[Offset++] = '\n';
+			Ascii[Offset]	= '\0';
+			uartPutstring(Ascii);
+
+			Offset = 0;
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////
+///
+/// Write a single memory location
+///
+///	\param	Command		:	User command string
+///
+/// \note	Command format is
+///				set <base address> <byte value>
+///
+///			All parameters must be Hex with '0x' prefix
+///
+///////////////////////////////////////////////////////////
+void write(unsigned char *Command)
+{
+	unsigned short	base;
+	unsigned char	value;
+	unsigned char   *data;
+
+	base	= HexToNum(&Command[6], &data);
+	value	= HexToNum(data, NULL);
+	
+	*((unsigned char*) base) = value;
+}
+
+///////////////////////////////////////////////////////////
+///
+/// Upgrade the software
+///
+///	\param	Command		:	User command string
+///
+///////////////////////////////////////////////////////////
+#pragma warn (unused-param, push, off)
+void upgrade(unsigned char *Command)
+{
+	R_DIGIT3 = 0;
+	R_DIGIT2 = 0;
+	R_DIGIT1 = 0;
+	R_DIGIT0 = 0;
+	
+	R_MODE |= 0x20;
 }
 #pragma warn (unused-param, pop)
 
@@ -172,7 +331,8 @@ void main(void)
 	R_DIGIT1			= '5';
 	R_DIGIT0			= ' ';
 
-	uartTX("b65 ready.\r\n");
+	cls(NULL);
+	uartPutstring("b65 ready.\r\n");
 	ConsoleInit(&g_console_context, g_ConsoleCommand, sizeof(g_ConsoleCommand) / sizeof(CONSOLE_COMMAND) );
 
 	while(1)
@@ -186,7 +346,7 @@ void main(void)
 			g_uart_rx_count--;
 			ConsoleAdd(&g_console_context, R_RX);
 		}
-		
+	
 		// Inputs and Leds
 		if (R_IN2 != 0)
 		{

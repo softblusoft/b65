@@ -15,5 +15,8 @@
 //     You should have received a copy of the GNU General Public License
 //     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
-void __fastcall__ uartPut(const char buf);
-void __fastcall__ uartTX(const char *buf);
+///////////////////////////////////////////////////////////
+// Functions
+
+void uartPutchar	(const unsigned char  ch);
+void uartPutstring	(const unsigned char *st);

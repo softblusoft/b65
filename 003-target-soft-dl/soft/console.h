@@ -16,15 +16,43 @@
 //     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
 ///////////////////////////////////////////////////////////
+// Supported features:
+//
+// press enter         : execute the current command
+// press CTRL+C        : don't execute the current command, don't save to history but preserve on screen
+// press ESC twice     : clean current line and don't save to history (the command is not preserved on screen)
+// first char is #     : current command is commented out, not executed but saved to history
+// line edit           : home, end, cancel, backspace, left and right arrows
+//
+// Optional fetures:
+// press insert        : toggle 'insert'/'overwrite' modes (CONSOLE_INS_MODE    required)
+// press arrow up/down : recall history items              (CONSOLE_MAX_HISTORY required)
+
+///////////////////////////////////////////////////////////
 // Console definitions
 
-// Maximum number of history commands (set zero to disable history)
-#define CONSOLE_MAX_HISTORY		6
+// Prompt string
+#define CONSOLE_PROMPT					">"
+
+// Maximum number of history commands - it costs 972 bytes of ROM (nearly independent from items count inthe range 2 to 6)
+// - set zero to disable history
+// - set one  to enable one history item - it costs 437 bytes of ROM
+#define CONSOLE_MAX_HISTORY				6
 
 // Maximum length (in bytes) of a command, including parameters
-#define CONSOLE_MAX_COMMAND		32
+#define CONSOLE_MAX_COMMAND				32
 
-typedef void (*CONSOLE_CALLBACK)(unsigned char *Command, void *Arg);
+// Console enable insert/overwrite mode (if disabled 'insert' mode is the default) - it costs 234 bytes of ROM
+#define CONSOLE_INS_MODE				0
+
+// Console callback user argument - it costs 82 bytes of ROM
+#define CONSOLE_CALLBACK_USER_ARG		0
+
+#if (CONSOLE_CALLBACK_USER_ARG != 0)
+	typedef void (*CONSOLE_CALLBACK)(unsigned char *Command, void *Arg);
+#else
+	typedef void (*CONSOLE_CALLBACK)(unsigned char *Command);
+#endif
 
 ///////////////////////////////////////////////////////////
 // Console enumeratives
@@ -39,12 +67,14 @@ typedef enum _CONSOLE_STATUS_
 	
 } CONSOLE_STATUS;
 
+#if (CONSOLE_INS_MODE != 0)
 typedef enum _CONSOLE_INS_
 {
 	CONSOLE_INS_INSERT,
 	CONSOLE_INS_OVERWRITE
 	
 } CONSOLE_INS;
+#endif
 
 ///////////////////////////////////////////////////////////
 // Console structures
@@ -53,7 +83,11 @@ typedef struct _CONSOLE_COMMAND_
 {
 	unsigned char			   *command;
 	CONSOLE_CALLBACK			callback;
+
+#if (CONSOLE_CALLBACK_USER_ARG != 0)
 	void					   *arg;
+#endif
+
 	unsigned char			   *help;
 	
 } CONSOLE_COMMAND;
@@ -61,16 +95,23 @@ typedef struct _CONSOLE_COMMAND_
 typedef struct _CONSOLE_CONTEXT_
 {
 	CONSOLE_STATUS				status;			// Console status
+
+#if (CONSOLE_INS_MODE != 0)
 	CONSOLE_INS					insmode;		// Insert char mode
+#endif
+
 	unsigned char				current;		// Buffer current insert position
 	unsigned char				end;			// Buffer end position
 
-#if (CONSOLE_MAX_HISTORY > 0)
+#if (CONSOLE_MAX_HISTORY > 1)
 	unsigned char				historyRead;	// History read position
 	unsigned char				historyWrite;	// History write position
+	unsigned char				history[CONSOLE_MAX_HISTORY][CONSOLE_MAX_COMMAND];
+#endif
+
+#if (CONSOLE_MAX_HISTORY > 0)
 	unsigned char				historyCount;	// History items count
 	unsigned char				historyActive;	// History item on buffer
-	unsigned char				history[CONSOLE_MAX_HISTORY][CONSOLE_MAX_COMMAND];
 #endif
 
 	// Registered commands

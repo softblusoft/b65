@@ -38,7 +38,9 @@ entity soft_dl is
 				clock					: in		std_logic;								-- Clock
 				reset					: in		std_logic;								-- reset
 				reset_cpu				: out		std_logic;								-- CPU reset
+				reset_devices			: out		std_logic;								-- CPU devices
 				led						: out		std_logic_vector(15 downto 0);			-- Led
+				upgrade					: in		std_logic;								-- upgrade restart
 
 				-- UART data receive
 				uart_rx_data			: in		std_logic_vector(7 downto 0);			-- UART received data
@@ -57,18 +59,17 @@ end soft_dl;
 architecture behavioral of soft_dl is
 
 	----------------------------------------------------------------------------
-	-- Constants
-
-	----------------------------------------------------------------------------
 	-- Data types
 
-	----------------------------------------------------------------------------
-	-- Constants
+	-- FSM
+	TYPE SOFT_DL_FSM is (dl_start, dl_run, dl_done, dl_restart);							-- Download FSM
 
 	----------------------------------------------------------------------------
 	-- Signals
 	
-	signal download_done	: std_logic							:= '0';						-- Done flag
+	signal download_state	: SOFT_DL_FSM;
+	signal download_reset	: std_logic							:= '0';						-- Reset CPU (active low)
+	signal download_wait	: integer range 0 to 15;
 	signal data_address		: std_logic_vector(15	downto 0)	:= (others => '0');			-- data Address
 
 begin
@@ -78,7 +79,8 @@ begin
 	write_address	<= data_address(12 downto 0);
 
 	-- Reset CPU is active low
-	reset_cpu		<= download_done;
+	reset_cpu		<= download_reset;
+	reset_devices	<= not download_reset;
 
 	---------------------------------------------------------------------------
 	-- Processes
@@ -88,44 +90,73 @@ begin
 		if (clock'event and clock='1') then
 			-- If reset
 			if (reset = '1') then
-				download_done									<= '0';
-				led												<= x"0001";
-
-				data_address									<= (others => '1');
-				write_enable(0)									<= '0';
-				write_data										<= (others => '0');
+				download_state											<= dl_start;
+				led														<= x"0001";
+				data_address											<= (others => '1');
+				write_enable(0)											<= '0';
+				write_data												<= (others => '0');
+				download_reset											<= '0';
+				download_wait											<= 0;
 			else
-				write_enable(0)									<= '0';
+				case download_state is
+					when dl_start =>
+						download_state									<= dl_run;
+						led												<= x"0001";
+						data_address									<= (others => '1');
+						write_enable(0)									<= '0';
+						write_data										<= (others => '0');
+						download_reset									<= '0';
+				
+					when dl_run =>
+						write_enable(0)									<= '0';
+						download_reset									<= '0';
 
-				if  (data_address = x"0200") then	led(1)		<= '1'; end if;
-				if  (data_address = x"0400") then	led(2)		<= '1'; end if;
-				if  (data_address = x"0600") then	led(3)		<= '1'; end if;
-				if  (data_address = x"0800") then	led(4)		<= '1'; end if;
-				if  (data_address = x"0A00") then	led(5)		<= '1'; end if;
-				if  (data_address = x"0C00") then	led(6)		<= '1'; end if;
-				if  (data_address = x"0E00") then	led(7)		<= '1'; end if;
-				if  (data_address = x"1000") then	led(8)		<= '1'; end if;
-				if  (data_address = x"1200") then	led(9)		<= '1'; end if;
-				if  (data_address = x"1400") then	led(10)		<= '1'; end if;
-				if  (data_address = x"1600") then	led(11)		<= '1'; end if;
-				if  (data_address = x"1800") then	led(12)		<= '1'; end if;
-				if  (data_address = x"1A00") then	led(13)		<= '1'; end if;
-				if  (data_address = x"1C00") then	led(14)		<= '1'; end if;
-				if  (data_address = x"1FFE") then	led(15)		<= '1'; end if;
+						if  (data_address = x"0200") then	led(1)		<= '1'; end if;
+						if  (data_address = x"0400") then	led(2)		<= '1'; end if;
+						if  (data_address = x"0600") then	led(3)		<= '1'; end if;
+						if  (data_address = x"0800") then	led(4)		<= '1'; end if;
+						if  (data_address = x"0A00") then	led(5)		<= '1'; end if;
+						if  (data_address = x"0C00") then	led(6)		<= '1'; end if;
+						if  (data_address = x"0E00") then	led(7)		<= '1'; end if;
+						if  (data_address = x"1000") then	led(8)		<= '1'; end if;
+						if  (data_address = x"1200") then	led(9)		<= '1'; end if;
+						if  (data_address = x"1400") then	led(10)		<= '1'; end if;
+						if  (data_address = x"1600") then	led(11)		<= '1'; end if;
+						if  (data_address = x"1800") then	led(12)		<= '1'; end if;
+						if  (data_address = x"1A00") then	led(13)		<= '1'; end if;
+						if  (data_address = x"1C00") then	led(14)		<= '1'; end if;
+						if  (data_address = x"1FFE") then	led(15)		<= '1'; end if;
 
-				if  (data_address = x"1FFF") then
-					-- software download completed
-					download_done								<= '1';
-					led											<= x"0000";
-				end if;
+						if (uart_rx_valid = '1') then
+							write_enable(0)								<= '1';
+							write_data									<= uart_rx_data;
+							data_address								<= data_address + 1;
+							led(0)										<= '1';
+						end if;
 
-				if (uart_rx_valid = '1') and (download_done = '0') then
-					write_enable(0)								<= '1';
-					write_data									<= uart_rx_data;
-					data_address								<= data_address + 1;
-					led(0)										<= '1';
-				end if;
+						-- software download completed
+						if  (data_address = x"1FFF") then
+							download_state								<= dl_done;
+							led											<= x"0000";
+						end if;
 
+					when dl_done =>
+						download_reset									<= '1';
+						if (upgrade = '1') then
+							download_state								<= dl_restart;
+							download_reset								<= '0';
+							download_wait								<= 0;
+							
+							Log("Restarting software download");
+						end if;
+
+					when dl_restart =>
+						if (download_wait < 15) then
+							download_wait								<= download_wait + 1;
+						else
+							download_state								<= dl_start;
+						end if;
+				end case;
 			end if; -- reset
 		end if; -- clock event
 	end process;

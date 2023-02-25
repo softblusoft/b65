@@ -23,7 +23,7 @@
 --	Reg[0] : [RW] Mode
 --			bit[7] = unused
 --			bit[6] = unused
---			bit[5] = unused
+--			bit[5] = restart upgrade
 --			bit[4] = UART rx interrupt      (0=disable         , 1=enable)
 --			bit[3] = input change interrupt (0=disable         , 1=enable)
 --			bit[2] = output invert          (0=don't invert    , 1=invert)
@@ -81,6 +81,7 @@ entity ext is
 				enable					: in		std_logic;								-- block enable
 				enable_inputs			: in		std_logic;								-- enable inputs and Rx
 				interrupt				: out		std_logic;								-- interrupt (active low)
+				upgrade					: out		std_logic;								-- upgrade restart
 
 				-- Write interface
 				write_address			: in		std_logic_vector( 3	downto 0);			-- write Address
@@ -215,7 +216,8 @@ begin
 	---------------------------------------------------------------------------
 	-- Hardwired
 
-	uart_tx_valid <= uart_tx_valid_internal;
+	uart_tx_valid	<= uart_tx_valid_internal;
+	upgrade			<= reg(0)(5);
 
 	----------------------------------------------------------------------------
 	-- Processes

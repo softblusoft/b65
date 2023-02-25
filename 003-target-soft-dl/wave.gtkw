@@ -1,42 +1,59 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Sat Feb 11 18:39:46 2023
+[*] Thu Feb 23 20:50:54 2023
 [*]
 [dumpfile] "Z:\Wip\007 - Website\GitHub\b65\repo\out\003-target-soft-dl\vhdl\cpu.ghw"
-[dumpfile_mtime] "Sat Feb 11 18:26:14 2023"
-[dumpfile_size] 325521741
+[dumpfile_mtime] "Thu Feb 23 20:49:06 2023"
+[dumpfile_size] 207559435
 [savefile] "Z:\Wip\007 - Website\GitHub\b65\repo\003-target-soft-dl\wave.gtkw"
-[timestart] 99109020000000
+[timestart] 0
 [size] 1536 841
 [pos] -1 -1
-*-32.740524 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-44.639095 65000000000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.board.
 [treeopen] top.board.int_top.
-[treeopen] top.board.int_top.inst_ram_code.memory.
-[treeopen] top.board.int_top.inst_soft_dl.
+[treeopen] top.board.int_top.inst_uart.
 [sst_width] 285
-[signals_width] 267
+[signals_width] 323
 [sst_expanded] 1
 [sst_vpaned_height] 325
+@800200
+-BOARD
 @420
 top.board.download_control
+top.board.download_wait
 @28
+top.board.uart_busy
+top.board.uart_tx_valid_soft_dl
+@22
+#{top.board.uart_tx_byte_soft_dl[7:0]} top.board.uart_tx_byte_soft_dl[7] top.board.uart_tx_byte_soft_dl[6] top.board.uart_tx_byte_soft_dl[5] top.board.uart_tx_byte_soft_dl[4] top.board.uart_tx_byte_soft_dl[3] top.board.uart_tx_byte_soft_dl[2] top.board.uart_tx_byte_soft_dl[1] top.board.uart_tx_byte_soft_dl[0]
+@1000200
+-BOARD
+@22
+#{top.board.int_top.inst_ext.reg[0][7:0]} top.board.int_top.inst_ext.reg[0][7] top.board.int_top.inst_ext.reg[0][6] top.board.int_top.inst_ext.reg[0][5] top.board.int_top.inst_ext.reg[0][4] top.board.int_top.inst_ext.reg[0][3] top.board.int_top.inst_ext.reg[0][2] top.board.int_top.inst_ext.reg[0][1] top.board.int_top.inst_ext.reg[0][0]
+@28
+top.board.int_top.inst_soft_dl.upgrade
+@420
+top.board.int_top.inst_soft_dl.download_state
+@28
+[color] 2
+top.board.int_top.inst_soft_dl.uart_rx_valid
+top.board.int_top.inst_soft_dl.download_reset
 top.board.int_top.reset_cpu
+top.board.int_top.reset_system
 @22
-#{top.board.int_top.inst_ram_code.memory[8191][7:0]} top.board.int_top.inst_ram_code.memory[8191][7] top.board.int_top.inst_ram_code.memory[8191][6] top.board.int_top.inst_ram_code.memory[8191][5] top.board.int_top.inst_ram_code.memory[8191][4] top.board.int_top.inst_ram_code.memory[8191][3] top.board.int_top.inst_ram_code.memory[8191][2] top.board.int_top.inst_ram_code.memory[8191][1] top.board.int_top.inst_ram_code.memory[8191][0]
-#{top.board.int_top.inst_ram_code.memory[8190][7:0]} top.board.int_top.inst_ram_code.memory[8190][7] top.board.int_top.inst_ram_code.memory[8190][6] top.board.int_top.inst_ram_code.memory[8190][5] top.board.int_top.inst_ram_code.memory[8190][4] top.board.int_top.inst_ram_code.memory[8190][3] top.board.int_top.inst_ram_code.memory[8190][2] top.board.int_top.inst_ram_code.memory[8190][1] top.board.int_top.inst_ram_code.memory[8190][0]
-#{top.board.int_top.inst_ram_code.memory[8189][7:0]} top.board.int_top.inst_ram_code.memory[8189][7] top.board.int_top.inst_ram_code.memory[8189][6] top.board.int_top.inst_ram_code.memory[8189][5] top.board.int_top.inst_ram_code.memory[8189][4] top.board.int_top.inst_ram_code.memory[8189][3] top.board.int_top.inst_ram_code.memory[8189][2] top.board.int_top.inst_ram_code.memory[8189][1] top.board.int_top.inst_ram_code.memory[8189][0]
-#{top.board.int_top.inst_soft_dl.write_address[12:0]} top.board.int_top.inst_soft_dl.write_address[12] top.board.int_top.inst_soft_dl.write_address[11] top.board.int_top.inst_soft_dl.write_address[10] top.board.int_top.inst_soft_dl.write_address[9] top.board.int_top.inst_soft_dl.write_address[8] top.board.int_top.inst_soft_dl.write_address[7] top.board.int_top.inst_soft_dl.write_address[6] top.board.int_top.inst_soft_dl.write_address[5] top.board.int_top.inst_soft_dl.write_address[4] top.board.int_top.inst_soft_dl.write_address[3] top.board.int_top.inst_soft_dl.write_address[2] top.board.int_top.inst_soft_dl.write_address[1] top.board.int_top.inst_soft_dl.write_address[0]
-@820
-#{top.board.int_top.inst_soft_dl.uart_rx_data[7:0]} top.board.int_top.inst_soft_dl.uart_rx_data[7] top.board.int_top.inst_soft_dl.uart_rx_data[6] top.board.int_top.inst_soft_dl.uart_rx_data[5] top.board.int_top.inst_soft_dl.uart_rx_data[4] top.board.int_top.inst_soft_dl.uart_rx_data[3] top.board.int_top.inst_soft_dl.uart_rx_data[2] top.board.int_top.inst_soft_dl.uart_rx_data[1] top.board.int_top.inst_soft_dl.uart_rx_data[0]
+#{top.board.int_top.led_ext[15:0]} top.board.int_top.led_ext[15] top.board.int_top.led_ext[14] top.board.int_top.led_ext[13] top.board.int_top.led_ext[12] top.board.int_top.led_ext[11] top.board.int_top.led_ext[10] top.board.int_top.led_ext[9] top.board.int_top.led_ext[8] top.board.int_top.led_ext[7] top.board.int_top.led_ext[6] top.board.int_top.led_ext[5] top.board.int_top.led_ext[4] top.board.int_top.led_ext[3] top.board.int_top.led_ext[2] top.board.int_top.led_ext[1] top.board.int_top.led_ext[0]
+#{top.board.int_top.led_soft_dl[15:0]} top.board.int_top.led_soft_dl[15] top.board.int_top.led_soft_dl[14] top.board.int_top.led_soft_dl[13] top.board.int_top.led_soft_dl[12] top.board.int_top.led_soft_dl[11] top.board.int_top.led_soft_dl[10] top.board.int_top.led_soft_dl[9] top.board.int_top.led_soft_dl[8] top.board.int_top.led_soft_dl[7] top.board.int_top.led_soft_dl[6] top.board.int_top.led_soft_dl[5] top.board.int_top.led_soft_dl[4] top.board.int_top.led_soft_dl[3] top.board.int_top.led_soft_dl[2] top.board.int_top.led_soft_dl[1] top.board.int_top.led_soft_dl[0]
+#{top.board.int_top.led[15:0]} top.board.int_top.led[15] top.board.int_top.led[14] top.board.int_top.led[13] top.board.int_top.led[12] top.board.int_top.led[11] top.board.int_top.led[10] top.board.int_top.led[9] top.board.int_top.led[8] top.board.int_top.led[7] top.board.int_top.led[6] top.board.int_top.led[5] top.board.int_top.led[4] top.board.int_top.led[3] top.board.int_top.led[2] top.board.int_top.led[1] top.board.int_top.led[0]
 @28
-top.board.int_top.inst_ext.interrupt
+top.board.int_top.rom_enable
 @22
-#{top.board.int_top.inst_ext.inputs[23:0]} top.board.int_top.inst_ext.inputs[23] top.board.int_top.inst_ext.inputs[22] top.board.int_top.inst_ext.inputs[21] top.board.int_top.inst_ext.inputs[20] top.board.int_top.inst_ext.inputs[19] top.board.int_top.inst_ext.inputs[18] top.board.int_top.inst_ext.inputs[17] top.board.int_top.inst_ext.inputs[16] top.board.int_top.inst_ext.inputs[15] top.board.int_top.inst_ext.inputs[14] top.board.int_top.inst_ext.inputs[13] top.board.int_top.inst_ext.inputs[12] top.board.int_top.inst_ext.inputs[11] top.board.int_top.inst_ext.inputs[10] top.board.int_top.inst_ext.inputs[9] top.board.int_top.inst_ext.inputs[8] top.board.int_top.inst_ext.inputs[7] top.board.int_top.inst_ext.inputs[6] top.board.int_top.inst_ext.inputs[5] top.board.int_top.inst_ext.inputs[4] top.board.int_top.inst_ext.inputs[3] top.board.int_top.inst_ext.inputs[2] top.board.int_top.inst_ext.inputs[1] top.board.int_top.inst_ext.inputs[0]
-#{top.board.int_top.inst_soft_dl.uart_rx_data[7:0]} top.board.int_top.inst_soft_dl.uart_rx_data[7] top.board.int_top.inst_soft_dl.uart_rx_data[6] top.board.int_top.inst_soft_dl.uart_rx_data[5] top.board.int_top.inst_soft_dl.uart_rx_data[4] top.board.int_top.inst_soft_dl.uart_rx_data[3] top.board.int_top.inst_soft_dl.uart_rx_data[2] top.board.int_top.inst_soft_dl.uart_rx_data[1] top.board.int_top.inst_soft_dl.uart_rx_data[0]
-#{top.board.int_top.inst_soft_dl.write_address[12:0]} top.board.int_top.inst_soft_dl.write_address[12] top.board.int_top.inst_soft_dl.write_address[11] top.board.int_top.inst_soft_dl.write_address[10] top.board.int_top.inst_soft_dl.write_address[9] top.board.int_top.inst_soft_dl.write_address[8] top.board.int_top.inst_soft_dl.write_address[7] top.board.int_top.inst_soft_dl.write_address[6] top.board.int_top.inst_soft_dl.write_address[5] top.board.int_top.inst_soft_dl.write_address[4] top.board.int_top.inst_soft_dl.write_address[3] top.board.int_top.inst_soft_dl.write_address[2] top.board.int_top.inst_soft_dl.write_address[1] top.board.int_top.inst_soft_dl.write_address[0]
+#{top.board.int_top.rom_address_soft_dl[12:0]} top.board.int_top.rom_address_soft_dl[12] top.board.int_top.rom_address_soft_dl[11] top.board.int_top.rom_address_soft_dl[10] top.board.int_top.rom_address_soft_dl[9] top.board.int_top.rom_address_soft_dl[8] top.board.int_top.rom_address_soft_dl[7] top.board.int_top.rom_address_soft_dl[6] top.board.int_top.rom_address_soft_dl[5] top.board.int_top.rom_address_soft_dl[4] top.board.int_top.rom_address_soft_dl[3] top.board.int_top.rom_address_soft_dl[2] top.board.int_top.rom_address_soft_dl[1] top.board.int_top.rom_address_soft_dl[0]
+#{top.board.int_top.rom_address_cpu[12:0]} top.board.int_top.rom_address_cpu[12] top.board.int_top.rom_address_cpu[11] top.board.int_top.rom_address_cpu[10] top.board.int_top.rom_address_cpu[9] top.board.int_top.rom_address_cpu[8] top.board.int_top.rom_address_cpu[7] top.board.int_top.rom_address_cpu[6] top.board.int_top.rom_address_cpu[5] top.board.int_top.rom_address_cpu[4] top.board.int_top.rom_address_cpu[3] top.board.int_top.rom_address_cpu[2] top.board.int_top.rom_address_cpu[1] top.board.int_top.rom_address_cpu[0]
+#{top.board.int_top.rom_address[12:0]} top.board.int_top.rom_address[12] top.board.int_top.rom_address[11] top.board.int_top.rom_address[10] top.board.int_top.rom_address[9] top.board.int_top.rom_address[8] top.board.int_top.rom_address[7] top.board.int_top.rom_address[6] top.board.int_top.rom_address[5] top.board.int_top.rom_address[4] top.board.int_top.rom_address[3] top.board.int_top.rom_address[2] top.board.int_top.rom_address[1] top.board.int_top.rom_address[0]
 @29
-top.board.int_top.inst_soft_dl.write_enable[0]
+[color] 2
+top.board.int_top.inst_uart.uart_rx
 [pattern_trace] 1
 [pattern_trace] 0
