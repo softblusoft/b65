@@ -16,7 +16,7 @@
 --     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------------------
--- Static RAM memory
+-- Static RAM memory - mimic an upgradable ROM
 
 -------------------------------------------------------------------------------
 -- Libraries

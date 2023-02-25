@@ -68,7 +68,7 @@ architecture behavioral of top is
 
 	-- Clock
 	signal clock_50M		: std_logic;								-- System clock @ 50MHz
-	signal clock_5M			: std_logic;								-- CPU    clock @  1MHz
+	signal clock_5M			: std_logic;								-- CPU    clock @  5MHz
 
 	-- General
 	signal locked			: std_logic;

@@ -68,7 +68,7 @@ architecture behavioral of top is
 
 	-- Clock
 	signal clock_50M			: std_logic;								-- System clock @ 50MHz
-	signal clock_5M				: std_logic;								-- CPU    clock @  1MHz
+	signal clock_5M				: std_logic;								-- CPU    clock @  5MHz
 
 	-- General
 	signal locked				: std_logic;
@@ -169,20 +169,20 @@ begin
 
 	led					<= led_soft_dl			when (reset_cpu = '0') else led_ext;
 	
-	-- reset the clock manager only if there is pressed button(0) too (reset is not debounced)
+	-- reset the clock manager only if there is pressed push(0) too (reset is not debounced)
 	--
 	-- On basys3 : reset is the center (c) button and push(0) is the left (l) one:
-	--         __                  _______________           _____________                 _________
-	--  l ----|   \  reset_clock  |               | locked  |   _         | reset_system  |         | 
-	--        |    |------------->| clock_manager |-------->| _^   delay  |-------------->| soft_dl |--> reset_cpu
-	--  c --+-|__ /               |_______________|         |_____________|               |_________|
+	--         __                  _______________           _____________                 _________                            ___
+	--  l ----|   \  reset_clock  |               | locked  |   _         | reset_system  |         | --> reset_cpu           _|
+	--        |    |------------->| clock_manager |-------->| _^   delay  |-------------->| soft_dl |                         _
+	--  c --+-|__ /               |_______________|         |_____________|               |_________| --> reset_devices (ex)   |___
 	--      |                                                        ^
 	--      |________________________________________________________|
 	--
 	-- Suggested sequence is:
 	--   - press reset (c) to reset the design
-	--   - if it's not sufficient it means the clock_manager could be unlocked
-	--   - keeping reset (c) pressed press also the left button (l)
+	--   - if it's not sufficient (never happened to me) it means the clock_manager could be faulty
+	--   - keeping reset (c) pressed, press also the left button (l)
 	--   - release the left button only (l) to restart the clock_manager
 	--   - release the reset button (c) to restart the design
 	--
@@ -370,7 +370,7 @@ begin
 	---------------------------------------------------------------------------
 	-- Processes
 
-	-- Reset handling
+	-- reset_system generation
 	proc_lock : process(clock_50M) begin
 		if (clock_50M'event and clock_50M='1') then
 			-- If reset

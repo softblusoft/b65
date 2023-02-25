@@ -335,6 +335,9 @@ void main(void)
 	uartPutstring("b65 ready.\r\n");
 	ConsoleInit(&g_console_context, g_ConsoleCommand, sizeof(g_ConsoleCommand) / sizeof(CONSOLE_COMMAND) );
 
+	// Enable upgrade to simulate vhdl upgrade process (see b65.vhd download_software.dl_done process)
+	// upgrade(0);
+
 	while(1)
 	{
 		// Delay

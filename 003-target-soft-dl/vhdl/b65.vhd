@@ -81,8 +81,6 @@ architecture behavioral of board is
 	signal uart_rx_valid		: std_logic;
 	signal uart_tx_byte			: std_logic_vector(7 downto 0);
 	signal uart_tx_valid		: std_logic;
-	signal uart_tx_byte_echo	: std_logic_vector(7 downto 0);
-	signal uart_tx_valid_echo	: std_logic;
 	signal uart_tx_byte_soft_dl	: std_logic_vector(7 downto 0);
 	signal uart_tx_valid_soft_dl: std_logic;
 	
@@ -119,8 +117,8 @@ begin
 	---------------------------------------------------------------------------
 	-- Hardwired
 
-	uart_tx_byte	<= uart_tx_byte_soft_dl		when (download_done = '0') else uart_tx_byte_echo;
-	uart_tx_valid	<= uart_tx_valid_soft_dl	when (download_done = '0') else uart_tx_valid_echo;
+	uart_tx_byte	<= uart_tx_byte_soft_dl;
+	uart_tx_valid	<= uart_tx_valid_soft_dl;
 
 	----------------------------------------------------------------------------
 	-- Components map
@@ -206,76 +204,8 @@ begin
 		wait for  2 ms;
 		slide(8)	<= '1';
 
---		wait for  1 ms;
---		reset		<= '1';
---		wait for  2 us;
---		reset		<= '0';
---		wait for  7 us;
---		reset		<= '1';
---		wait for  31 us;
---		reset		<= '0';
---		wait for  12 us;
---		reset		<= '1';
---		wait for  523 us;
---		reset		<= '0';
-
 		wait;
 	end process;
-	
-	-- UART echo
-	uart_echo : process(clock) begin
-		if (clock'event and clock='1') then
-			-- If (system is in reset state)
-			if (reset = '1') then
-				-- reset state
-				uart_tx_byte_echo					<= x"00";
-				uart_tx_valid_echo					<= '0';
-				uart_control						<= ct_reset;
---			else
---				case (uart_control) is
---
---					-- reset state
---					when ct_reset =>
---						uart_control				<= ct_reset;
---						uart_tx_byte_echo			<= x"00";
---						uart_tx_valid_echo			<= '0';
---						
---						-- if UART is not busy, wait for an incoming data
---						if (uart_busy = '0') then
---							uart_control			<= ct_wait;
---						end if;
---
---					-- wait for an incoming byte and echo it
---					when ct_wait =>
---						uart_control				<= ct_wait;
---						uart_tx_byte_echo			<= x"00";
---						uart_tx_valid_echo			<= '0';
---
---						-- if UART is not busy and new data is incoming
---						if (uart_busy = '0' and uart_rx_valid = '1') then
---							uart_tx_byte_echo		<= uart_rx_byte;
---							uart_tx_valid_echo		<= '1';
---							uart_control			<= ct_complete;
---						end if;
---
---					-- complete sending operation
---					when ct_complete =>
---						uart_control				<= ct_complete;
---						uart_tx_byte_echo			<= x"00";
---						uart_tx_valid_echo			<= '0';
---
---						-- when UART accepted transmission, go to reset state
---						if (uart_busy = '1') then
---							uart_control			<= ct_reset;
---						end if;
---
---					-- Alignment state
---					when others =>
---						uart_control				<= ct_reset;
---				end case;
-			end if; -- reset
-		end if; -- clock
-	end process;	
 
 	-- download software rom file
 	download_software : process(clock)
@@ -365,7 +295,8 @@ begin
 							end if;
 						end if;
 
-					-- Download done
+					-- Download done, restart after 1M clocks (~20ms)
+					-- To simulate this ensure software main() routine calls upgrade() soon
 					when dl_done =>
 						if (download_wait = 1000000) then
 							download_control		<= dl_wait;

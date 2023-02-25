@@ -199,7 +199,7 @@ static unsigned char* ConsoleHistoryRecall(CONSOLE_CONTEXT *Ctx, unsigned char D
 /// Set the indicated buffer as the current one
 ///
 ///	\param	Ctx		:	Console context
-///	\param	Ctx		:	Console context
+///	\param	Buffer	:	Buffer to set as the current one
 ///
 ///////////////////////////////////////////////////////////
 static void ConsoleSetBuffer(CONSOLE_CONTEXT *Ctx, unsigned char *Buffer)

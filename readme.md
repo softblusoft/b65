@@ -264,7 +264,7 @@ How to use (Ubuntu 22.10)
       -   `sudo apt-get install libx32stdc++6-12-dbg python3-kerberos python3-paramiko python-configobj-doc python3-openssl python3-socks`
       -   `sudo apt-get install python-requests-doc python3-brotli`
 
-  -   :pushpin: before installing Vivado in Ubuntu be sure to have libtinfo5
+  -   before installing Vivado in Ubuntu be sure to have libtinfo5
       - `sudo apt-get install libtinfo5`
 
   -   Install GHDL gcc backend (v1.0.0 Compiled with GNAT Version: 10.4.0)

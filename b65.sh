@@ -16,7 +16,6 @@
 #     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
 # Settings
-SIMRUNTIME=20ms
 FOLDER_OUTPUT=out
 FOLDER_CC65=cc65-2.19
 FOLDER_ROM2COE=rom2coe
@@ -29,8 +28,9 @@ FOUND_GTKWAVE=no
 b65Help()
 {
 	echo "This script builds a target b65 board"
-	echo "usage: b65-linux.sh <target folder> [wave]"
+	echo "usage: b65-linux.sh <target folder> [simulation time] [wave]"
 	echo
+	echo "If simulation time is not specified, it defaults to 20ms"
 	echo "If wave is specified, waveform is saved and gtkwave is opened"
 }
 
@@ -242,10 +242,11 @@ b65BuildSoftware()
 b65Run()
 {
 	local Target=$1
-	local Wave=$2
+	local SimRunTime=$2
+	local Wave=$3
 	cd "$FOLDER_OUTPUT/$Target/vhdl"
 
-	echo "INFO  : Running b65 board"
+	echo "INFO  : Running b65 board for" $SimRunTime
 
 	if [ ! -e "../soft/b65.rom" ]; then
 		echo "ERROR : cannot find rom file [$FOLDER_OUTPUT/$Target/soft/b65.rom], something went wrong building software"
@@ -255,11 +256,31 @@ b65Run()
 	# copy software rom file to board.exe folder
 	cp ../soft/b65.rom .
 
-	# Note: --ieee-asserts=disable-at-0 disables some warnings from r65c02_tc at 0ms
+	# write the (optional) GHDL signals-to-save file
+	# use --write-wave-opt=<filename> to generate signals hierarchy (tip : run for 1ns to avoid useless waits)
+	# use --read-wave-opt=<filename>  to save only indicated signals to simulation file
+
+	echo $ version 1.1							 > signals.ghd
+	echo /board/*								>> signals.ghd
+#	echo /board/inst_uart/*						>> signals.ghd
+	echo /board/int_top/*						>> signals.ghd
+#	echo /board/int_top/inst_clock_manager/*	>> signals.ghd
+#	echo /board/int_top/inst_core6502/*			>> signals.ghd
+#	echo /board/int_top/inst_ram/*				>> signals.ghd
+#	echo /board/int_top/inst_ram_code/*			>> signals.ghd
+#	echo /board/int_top/inst_uart/*				>> signals.ghd
+#	echo /board/int_top/inst_ext/*				>> signals.ghd
+#	echo /board/int_top/inst_soft_dl/*			>> signals.ghd
+
+	# --ieee-asserts=disable-at-0 disables some warnings from r65c02_tc at 0ms
 	if [ "$Wave" == "wave" ]; then
-		./board --ieee-asserts=disable-at-0 --wave=cpu.ghw --stop-time=$SIMRUNTIME
+	#	./board --ieee-asserts=disable-at-0 --wave=cpu.ghw --stop-time=$SimRunTime
+	#	./board --ieee-asserts=disable-at-0 --write-wave-opt=signals.ghd --wave=cpu.ghw --stop-time=$SimRunTime
+		./board --ieee-asserts=disable-at-0 --read-wave-opt=signals.ghd  --wave=cpu.ghw --stop-time=$SimRunTime
 	else
-		./board --ieee-asserts=disable-at-0 --stop-time=$SIMRUNTIME
+	#	./board --ieee-asserts=disable-at-0 --stop-time=$SimRunTime
+	#	./board --ieee-asserts=disable-at-0 --write-wave-opt=signals.ghd --stop-time=$SimRunTime
+		./board --ieee-asserts=disable-at-0 --read-wave-opt=signals.ghd  --stop-time=$SimRunTime
 	fi
 
 	cd ../../..
@@ -280,7 +301,8 @@ b65Wave()
 b65main()
 {
 	local Target=$1
-	local Wave=$2
+	local SimRunTime=$2
+	local Wave=$3
 
 	if [ "$Target" == '--help' ] || [ "$Target" == '-?' ]; then 
 		b65Help
@@ -322,7 +344,7 @@ b65main()
 		b65LinkBoard      $Target
 
 		# Run VHDL (simulation executing software)
-		b65Run $Target $Wave
+		b65Run $Target $SimRunTime $Wave
 	fi
 	
 	# Open GTKwave

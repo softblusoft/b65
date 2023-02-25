@@ -23,7 +23,7 @@
 --	Reg[0] : [RW] Mode
 --			bit[7] = unused
 --			bit[6] = unused
---			bit[5] = restart upgrade
+--			bit[5] = start firmware upgrade
 --			bit[4] = UART rx interrupt      (0=disable         , 1=enable)
 --			bit[3] = input change interrupt (0=disable         , 1=enable)
 --			bit[2] = output invert          (0=don't invert    , 1=invert)

@@ -16,4 +16,4 @@ rem
 rem     You should have received a copy of the GNU General Public License
 rem     along with B65.  If not, see <http://www.gnu.org/licenses/>.
 
-b65-win-vhdl.bat 003-target-soft-dl wave
+b65-win-vhdl.bat 003-target-soft-dl 250ms

@@ -37,7 +37,7 @@
 --  - ph1 and ph2 are inverted without delay
 --
 --		                    +------+
---		 1MHz input ph0 -->	|      | ---> ph1
+--		 5MHz input ph0 -->	|      | ---> ph1
 --		                    | 6502 |
 --		                    |      | ---> ph2
 --		                    +------+
