@@ -12,6 +12,17 @@ Create 'download' folder and download:
  - https://github.com/cc65/cc65                        `c65-2.19.tar.gz`
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
 
+Windows:
+ - Open MSYS
+    - `./b65.sh {nnn-target-name}`
+
+ - Open cmd.exe (or double click on file)
+    - `b65-win-vhdl-{nnn-target-name}.bat`
+
+Windows FPGA implementation
+ - `cd {nnn-target-name}`
+ - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
+
 Linux:
  - `./b65.sh {nnn-target-name}`
 
@@ -19,26 +30,15 @@ Linux FPGA implementation:
  - `cd {nnn-target-name}/basys3`
  - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` &#2757; **See Known issues**
 
-Windows:
- - Open MSYS
-    - `./b65.sh {nnn-target-name}`
-
- - Open cmd.exe (or double click)
-    - `b65-win-vhdl-{nnn-target-name}.bat`
-
-Windows FPGA implementation<br/>
- - `cd {nnn-target-name}`
- - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
-
 Introduction
 ------------
 
-This is a VHDL project to use a 6502 CPU with a C compiler on a FPGA.
+This is a VHDL project to use a [6502 CPU](https://opencores.org/projects/cpu65c02_true_cycle) with a [C compiler](https://github.com/cc65/cc65) on a FPGA.
 Design is divided into 'targets' with increasing features.
-Some files are duplicated across targets, it's wanted to separate each development step.<br/>
+Some files are duplicated across targets, it's wanted to clearly separate each development step.
 Build scripts are minimal and the whole project is intentionally written as simple as possible.
 
-All used software is free of charge, in most cases open source
+:arrow_forward: All used software is free of charge, in most cases open source
 
 The following packages are used (not modified, not patched)
 
