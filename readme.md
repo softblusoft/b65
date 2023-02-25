@@ -243,7 +243,7 @@ VHDL sources are : `pack.vhd` `b65.vhd`
 
 To customize the behaviour:
 - `SIMRUNTIME=5ms` is the simulation runtime
-- run `b65.sh {target} **wave**` to save simulation waveforms and open gtkwave
+- run `b65.sh {nnn-target-name} wave` to save simulation waveforms and open gtkwave
 
 Clean
 -----
