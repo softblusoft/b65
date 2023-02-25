@@ -37,7 +37,7 @@
 --  - ph1 and ph2 are inverted without delay
 --
 --		                    +------+
---		 1MHz input ph0 -->	|      | ---> ph1
+--		 5MHz input ph0 -->	|      | ---> ph1
 --		                    | 6502 |
 --		                    |      | ---> ph2
 --		                    +------+
@@ -90,9 +90,9 @@ package PACK is
 	component clockgenerator is
 	port	(
 				clock					: out		std_logic;								-- 50MHz FPGA
-				clock_ph0				: out		std_logic;								--  1MHz 6502 CPU ph0 input
-				clock_ph1				: out		std_logic;								--  1MHz 6502 CPU ph1 output (the same as ph0)
-				clock_ph2				: out		std_logic								--  1MHz 6502 CPU ph2 output (ph0 inverted)
+				clock_ph0				: out		std_logic;								--  5MHz 6502 CPU ph0 input
+				clock_ph1				: out		std_logic;								--  5MHz 6502 CPU ph1 output (the same as ph0)
+				clock_ph2				: out		std_logic								--  5MHz 6502 CPU ph2 output (ph0 inverted)
 			);
 	end component;
 

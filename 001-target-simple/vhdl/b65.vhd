@@ -50,9 +50,9 @@ architecture behavioral of board is
 
 	-- Clock
 	signal clock			: std_logic;								-- System clock @ 50MHz
-	signal clock_ph0		: std_logic;								-- CPU    clock @  1MHz
-	signal clock_ph1		: std_logic;								-- CPU    clock @  1MHz
-	signal clock_ph2		: std_logic;								-- CPU    clock @  1MHz - inverted
+	signal clock_ph0		: std_logic;								-- CPU    clock @  5MHz
+	signal clock_ph1		: std_logic;								-- CPU    clock @  5MHz
+	signal clock_ph2		: std_logic;								-- CPU    clock @  5MHz - inverted
 
 	-- Reset
 	signal reset			: std_logic;								-- Reset
