@@ -13,21 +13,21 @@ Create 'download' folder and download:
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
 
 Linux:
- - `./b65.sh `<nnn-target-name>
+ - `./b65.sh {nnn-target-name}`
 
 Linux FPGA implementation:
- - `cd `{nnn-target-name}`/basys3`
+ - `cd {nnn-target-name}/basys3`
  - `/tools/Xilinx/Vivado/2018.3/bin/vivado -m64 -mode batch -notrace -source vivado.tcl` &#2757; **See Known issues**
 
 Windows:
  - Open MSYS
-    - `./b65.sh `{nnn-target-name}
+    - `./b65.sh {nnn-target-name}`
 
  - Open cmd.exe (or double click)
-    - `b65-win-vhdl-`{nnn-target-name}`.bat`
+    - `b65-win-vhdl-{nnn-target-name}.bat`
 
 Windows FPGA implementation<br/>
- - `cd `{nnn-target-name}
+ - `cd {nnn-target-name}`
  - `C:\Xilinx\Vivado\2018.3\bin\vivado.bat -m64 -mode batch -notrace -source vivado.tcl`
 
 Introduction
