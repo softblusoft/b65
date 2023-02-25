@@ -134,25 +134,23 @@ Software download
 -----------------
 
 From target 003 the software must be downloaded at power-on over the UART;
-the FPGA keeps the CPU in reset until software download is completed.
+the FPGA keeps the CPU reset until software download is completed.
 There is no download protocol, each byte is written to the ROM section until
 completion; the end is detected by the number of downladed bytes.
 
   Windows (assuming the serial port is COM8):
   - Open cmd.exe (or double click)
-    - `cd out\003-target-soft-dl\soft`
+    - `cd out\{nnn-target-name}\soft`
     - `MODE COM8 BAUD=921600 PARITY=n DATA=8 STOP=1`
-    - `copy /b b65.rom COM8` (this command doesn't work from powershell)
+    - `copy /b b65.rom COM8` (:warning: this command doesn't work from powershell)
 
   Alternatively:
     - using RealTerm use "Dump File to Port" in "Send" tab to download the b65.rom file
     - using `plink.exe` or `klink.exe` `-serial -sercfg 921600,8,n,1,N COM8 < b65.rom` (press CTRL+C when done to return to prompt)
 
-    plink.exe is in PuttY package; klink is in KiTTY package
-
   Linux (assuming the serial port is /dev/ttyUSB1):
   - Open a terminal as root
-    - `cd out\003-target-soft-dl\soft`
+    - `cd out\{nnn-target-name}\soft`
     - `stty -F /dev/ttyUSB1 raw 921600 cs8`
     - `cat b65.rom > /dev/ttyUSB1`
 
