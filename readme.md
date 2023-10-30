@@ -352,7 +352,8 @@ Changes
 - 2023 jan 15 : 001-target-simple  working (simulation)
 - 2023 jan 28 : 002-target-io      working (FPGA proven)
 - 2023 feb 12 : 003-target-soft-dl working (FPGA proven)
-- 2023 oct 30 : tested with WSL Ubuntu 22.04
-                tested with Windows 11
-                added MSYS required packages list
-                added 'escan' command to target 003
+- 2023 oct 30 :
+    - tested with WSL Ubuntu 22.04
+    - tested with Windows 11
+    - added MSYS required packages list
+    - added 'escan' command to target 003
