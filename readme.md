@@ -8,6 +8,11 @@ B65 - Board 65 retro computer
 Fast start
 -----------
 
+:warning: Ensure ghdl binaries folder is within your PATH
+
+:warning: MSYS2 and linux binaries are not compatible, clean the project before switching
+          the system to avoid "cannot execute binary file: Exec format error"
+
 Create 'download' folder and download:
  - https://github.com/cc65/cc65                        `c65-2.19.tar.gz`
  - https://opencores.org/projects/cpu65c02_true_cycle  `cpu65c02_true_cycle_latest.tar.gz`
@@ -253,7 +258,7 @@ To clean the cc65 compiler remove the `cc65-2.19` folder
 
 To clean the CPU 6502 VHDL sources remove the `cpu65c02_true_cycle` folder
 
-How to use (Ubuntu 22.10)
+How to use (WSL Ubuntu 22.04 / Ubuntu 22.10)
 -------------------------
 
 - Prerequisites:
@@ -278,10 +283,13 @@ How to use (Ubuntu 22.10)
     - Run `b65.sh` script with a target name, e.g.
         `./b65.sh 001-target-simple`
 
-How to use (Windows 10)
+How to use (Windows 10/11)
 -----------------------
 
 - Prerequisites:
+    install MSYS2 and add the following packages:  
+       - pacman -S base-devel gcc
+
     cc65 is built with msys/gcc and can be used only from MSYS2 shell.
     GHDL and Gtkwave are Win32 native and don't run inside MSYS2 environment (at least in my machine).
     Make sure ghdl (gcc backend) and gtkwave are in the system PATH
@@ -344,3 +352,7 @@ Changes
 - 2023 jan 15 : 001-target-simple  working (simulation)
 - 2023 jan 28 : 002-target-io      working (FPGA proven)
 - 2023 feb 12 : 003-target-soft-dl working (FPGA proven)
+- 2023 oct 30 : tested with WSL Ubuntu 22.04
+                tested with Windows 11
+                added MSYS required packages list
+                added 'escan' command to target 003

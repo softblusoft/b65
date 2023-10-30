@@ -20,3 +20,4 @@
 
 void uartPutchar	(const unsigned char  ch);
 void uartPutstring	(const unsigned char *st);
+void uartPutHexByte	(const unsigned char Byte);

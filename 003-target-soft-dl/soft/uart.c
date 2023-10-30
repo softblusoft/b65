@@ -50,3 +50,20 @@ void uartPutstring(const unsigned char *st)
 		++st;
 	}
 }
+
+///////////////////////////////////////////////////////////
+///
+/// Put a hex byte to the UART (without 0x or any other prefix
+///
+///	\param	Byte : Byte to write to the UART
+///
+///////////////////////////////////////////////////////////
+void uartPutHexByte(const unsigned char Byte)
+{
+	unsigned char Hi = (Byte  >> 4) & 0x0F;
+	unsigned char Lo = Byte & 0x0F;
+
+	// 7 is ascii 55, adding +10 = 65 i.e. 'A'
+	R_TX = ((Hi <= 9)  ? '0' : '7') + Hi;
+	R_TX = ((Lo <= 9)  ? '0' : '7') + Lo;
+}

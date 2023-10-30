@@ -52,6 +52,7 @@ void display	(unsigned char *Command);
 void dump		(unsigned char *Command);
 void write		(unsigned char *Command);
 void upgrade	(unsigned char *Command);
+void escan		(unsigned char *Command);
 
 ///////////////////////////////////////////////////////////
 // Console commands table
@@ -73,6 +74,8 @@ static const CONSOLE_COMMAND g_ConsoleCommand[] =
 
 	{	"reboot",	reboot,		"Reboot CPU"				},
 	{	"upgrade",	upgrade,	"Start software upgrade"	},
+
+	{	"escan",	escan,		"Escape sequence scan (CTRL+D to stop)"	},
 };
 
 ///////////////////////////////////////////////////////////
@@ -213,7 +216,6 @@ void dump(unsigned char *Command)
 	unsigned char		Offset	= 0;
 	unsigned short		start;
 	unsigned char		length;
-	unsigned char		Nibble;
 	unsigned char		Byte;
 	unsigned char	   *data;
 
@@ -225,18 +227,7 @@ void dump(unsigned char *Command)
 	{
 		Byte = data[Index];
 
-		Nibble = (Byte >> 4) & 0x0F;
-		if (Nibble <= 9)
-			uartPutchar('0' + Nibble);
-		else
-			uartPutchar('7' + Nibble); // 7 is ascii 55, adding +10 = 65 i.e. 'A'
-
-		Nibble = Byte & 0x0F;
-		if (Nibble <= 9)
-			uartPutchar('0' + Nibble);
-		else
-			uartPutchar('7' + Nibble);
-
+		uartPutHexByte(Byte);
 		uartPutchar(' ');
 
 		if ((Byte >= 0x20) && (Byte < 0x7F))
@@ -290,7 +281,7 @@ void write(unsigned char *Command)
 
 ///////////////////////////////////////////////////////////
 ///
-/// Upgrade the software
+/// Upgrade the software (using the UART)
 ///
 ///	\param	Command		:	User command string
 ///
@@ -304,6 +295,41 @@ void upgrade(unsigned char *Command)
 	R_DIGIT0 = 0;
 	
 	R_MODE |= 0x20;
+}
+#pragma warn (unused-param, pop)
+
+///////////////////////////////////////////////////////////
+///
+/// Escape sequence scan until CTR+D (0x04) is received
+///
+///	\param	Command		:	User command string
+///
+///////////////////////////////////////////////////////////
+#pragma warn (unused-param, push, off)
+void escan(unsigned char *Command)
+{
+	unsigned char Rx	= 0;
+	unsigned char Cnt	= 0;
+	
+	// CTRL+D is 0x04
+	while (Rx != 4)
+	{
+		if (g_uart_rx_count != 0)
+		{
+			g_uart_rx_count--;
+			Rx = R_RX;
+			Cnt++;
+			
+			uartPutHexByte(Rx);
+			uartPutchar(' ');
+
+			if (Cnt == 8)
+			{
+				Cnt = 0;
+				uartPutstring("\r\n");
+			}
+		}
+	}	
 }
 #pragma warn (unused-param, pop)
 
